@@ -2593,6 +2593,11 @@
     "@typescript-eslint/types" "4.13.0"
     eslint-visitor-keys "^2.0.0"
 
+"@variantjs/core@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@variantjs/core/-/core-0.0.5.tgz#70f19bfc1c2d42475b8d663593045082f85d8f90"
+  integrity sha512-LHUKVex06h8CAB/0WxqWNkkMX8TDdBpqPB+wvXZRN8fzoXYqiMlg2tuzup014x6w7x87JFC2NtVwrJHkg1WEew==
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"

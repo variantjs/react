@@ -10,9 +10,12 @@
   "peerDependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "@variantjs/core": "^0.0.4"
+    "@variantjs/core": "^0.0.5"
   },
   "devDependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "@variantjs/core": "^0.0.5",
     "@craco/craco": "^6.0.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.1.0",
