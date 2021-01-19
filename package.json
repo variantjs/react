@@ -2,11 +2,21 @@
   "name": "@variantjs/react",
   "version": "0.0.0",
   "private": true,
-  "dependencies": {
-    "@variantjs/core": "^0.0.4"
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "files": [
+    "dist"
+  ],
+  "typings": "./dist/index.d.ts",
+  "peerDependencies": {
+    "@variantjs/core": "^0.0.4",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
     "@craco/craco": "^6.0.0",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.1.0",
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -21,16 +31,18 @@
     "enzyme": "^3.11.0",
     "jest-enzyme": "^7.1.2",
     "postcss": "^7",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
+    "rollup": "^2.37.0",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-typescript2": "^0.29.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "rollup -c",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
