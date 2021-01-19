@@ -4,16 +4,16 @@ import { Configuration } from '../context/Configuration'
 
 type ComponentName = 'TInput' | 'TSelect';
 
-const withVariants = <P extends ObjectWithClassName>(WrappedComponent: React.ComponentType<P>, componentName: ComponentName) => {
+const withVariants = <P extends ObjectWithClassName>(WrappedComponent: React.ComponentType<P>, componentName: ComponentName, defaultConfiguration?: WithVariantProps<P>) => {
   return class extends React.Component<WithVariantProps<P>> {
     static contextType = Configuration;
-
+    
     context!: React.ContextType<typeof Configuration>;
-
+    
     render() {
       const globalConfiguration = this.context[componentName] as WithVariantProps<P>;
 
-      const props = parseVariant(this.props, globalConfiguration)
+      const props = parseVariant(this.props, globalConfiguration, defaultConfiguration)
       
       return <WrappedComponent { ...props } />
     }
