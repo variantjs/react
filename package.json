@@ -32,6 +32,7 @@
     "jest-enzyme": "^7.1.2",
     "postcss": "^7",
     "react-scripts": "4.0.1",
+    "release-it": "^14.2.2",
     "rollup": "^2.37.0",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
@@ -44,7 +45,9 @@
     "start": "craco start",
     "build": "rollup -c",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src --fix",
+    "release": "release-it"
   },
   "eslintConfig": {
     "extends": [
@@ -70,5 +73,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "release-it": {
+    "hooks": {
+      "before:init": [
+        "yarn lint",
+        "yarn test"
+      ],
+      "after:bump": "yarn build"
+    }
   }
 }
