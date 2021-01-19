@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import TInput from './TInput';
+import TInput from '../components/TInput';
 
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
 
-describe('<TInput />', () => {
+describe('TInput', () => {
   it('renders the input without errors', () => {
     const wrapper = shallow(<TInput />)
 
