@@ -1,50 +1,50 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import TButton from '../components/TButton';
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TInput from '../components/TInput';
-import TInputTheme from '../theme/TInput'
+import TButtonTheme from '../theme/TButton'
 
-describe('TInput', () => {
+describe('TButton', () => {
   it('renders the input without errors', () => {
-    const wrapper = shallow(<TInput />)
+    const wrapper = shallow(<TButton />)
 
     expect(wrapper).toBeTruthy()
   });
 
   it('has a default theme', () => {
-    const wrapper = shallow(<TInput />)
+    const wrapper = shallow(<TButton>Press me</TButton>)
 
     const inputProps = wrapper.first().props();
 
-    expect(inputProps.className).toBe(TInputTheme.classes)
+    expect(inputProps.className).toBe(TButtonTheme.classes)
   });
 
-  it('accepts text input html attributes', () => {
-    const wrapper = shallow(<TInput type="number" max="10" readOnly={true} placeholder="Hello world" classes={undefined} />)
+  it('accepts button html attributes', () => {
+    const wrapper = shallow(<TButton type="submit" value="10" disabled classes={undefined}>Press me</TButton>)
 
-    expect(wrapper.html()).toBe('<input type="number" max="10" readonly="" placeholder="Hello world"/>')
+    expect(wrapper.html()).toBe('<button type="submit" value="10" disabled="">Press me</button>')
   });
   
  it('doesnt have any attributes by default', () => {
-    const wrapper = shallow(<TInput classes={undefined} />)
+    const wrapper = shallow(<TButton classes={undefined} />)
 
-    expect(wrapper.html()).toBe('<input/>')
+    expect(wrapper.html()).toBe('<button></button>')
   });
  
   it('select the props from the selected variant', () => {
     const variants = {
       error: {
         classes: 'text-red-500',
-        type: 'number'
+        type: 'submit'
       }
     }
 
-    const wrapper = shallow(<TInput classes="text-black" variant="error" variants={variants} />)
+    const wrapper = shallow(<TButton classes="text-black" variant="error" variants={variants} />)
 
     const inputProps = wrapper.first().props();
 
     expect(inputProps.className).toBe('text-red-500')
-    expect(inputProps.type).toBe('number')
+    expect(inputProps.type).toBe('submit')
   });
 
   it('doesnt adds the props related with the variants', () => {
@@ -55,12 +55,12 @@ describe('TInput', () => {
       variants: {
         alt: {
           classes: 'text-blue-500',
-          type: 'text',
+          type: 'submit',
         }
       }
     }
 
-    const wrapper = shallow(<TInput {...props} />)
+    const wrapper = shallow(<TButton {...props} />)
     const inputProps = wrapper.first().props();
 
     expect(inputProps.fixedClasses).toBeUndefined()
@@ -71,11 +71,11 @@ describe('TInput', () => {
   
   it('uses the props from the selected configuration variant', () => {
     const configuration: VariantJSConfiguration = {
-      TInput: {
+      TButton: {
         classes: 'text-black',
         variants: {
           error: {
-            type: 'number',
+            type: 'submit',
             classes: 'text-red-500'
           } 
         }
@@ -84,35 +84,35 @@ describe('TInput', () => {
 
     const wrapper = mount(
       <Configuration.Provider value={configuration}>
-        <TInput variant="error" />
+        <TButton variant="error" />
       </Configuration.Provider>
     )
 
-    const inputProps = wrapper.find('input').props();
+    const inputProps = wrapper.find('button').props();
 
     expect(inputProps.className).toBe('text-red-500')
-    expect(inputProps.type).toBe('number')
+    expect(inputProps.type).toBe('submit')
   });
 
   it('uses the props from the configuration', () => {
     const configuration: VariantJSConfiguration = {
-      TInput: {
+      TButton: {
         classes: 'text-black',
-        type: 'number'
+        type: 'submit'
         
       }
     }
 
     const wrapper = mount(
       <Configuration.Provider value={configuration}>
-        <TInput />
+        <TButton />
       </Configuration.Provider>
     )
 
-    const inputProps = wrapper.find('input').props();
+    const inputProps = wrapper.find('button').props();
 
     expect(inputProps.className).toBe('text-black')
-    expect(inputProps.type).toBe('number')
+    expect(inputProps.type).toBe('submit')
   });
 })
 

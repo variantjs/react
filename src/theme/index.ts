@@ -1,7 +1,9 @@
 import TInput from './TInput'
+import TButton from './TButton'
 
 const theme = {
-  TInput
+  TInput,
+  TButton,
 }
 
 export default theme;

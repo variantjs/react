@@ -1,5 +1,4 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from 'react'
-
 import withVariants from '../hoc/WithVariants'
 import defaultConfiguration from '../theme/TInput'
 
