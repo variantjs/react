@@ -1,9 +1,12 @@
 import React from 'react'
 import { TInputProps } from '../components/TInput';
-import { WithVariantProps } from '../hoc/WithVariants';
+import { WithVariantProps } from '@variantjs/core'
 
 export type VariantJSConfiguration = {
-  TInput?: TInputProps & WithVariantProps<TInputProps>
+  TInput?: WithVariantProps<TInputProps>
+  TSelect?: WithVariantProps<{
+    test: 'something'
+  }>
 }
 
 export const Configuration = React.createContext<VariantJSConfiguration>({});

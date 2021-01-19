@@ -1,17 +1,21 @@
 import React from 'react';
-import Enzyme, { shallow, mount } from 'enzyme';
-import EnzymeAdapter from '@wojtekmaj/enzyme-adapter-react-17';
+import { shallow, mount } from 'enzyme';
+
 import TInput from './TInput';
 
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
 
-Enzyme.configure({ adapter: new EnzymeAdapter()})
-
 describe('<TInput />', () => {
-  it('renders the input withouth errors', () => {
+  it('renders the input without errors', () => {
     const wrapper = shallow(<TInput />)
 
     expect(wrapper).toBeTruthy()
+  });
+
+  it('accepts text input html attributes', () => {
+    const wrapper = shallow(<TInput type="number" max="10" readOnly={true} placeholder="Hello world" />)
+
+    expect(wrapper.html()).toBe('<input type="number" max="10" readonly="" placeholder="Hello world"/>')
   });
   
  it('doesnt have any attributes by default', () => {
@@ -24,65 +28,49 @@ describe('<TInput />', () => {
     const variants = {
       error: {
         classes: 'text-red-500',
+        type: 'number'
       }
     }
 
     const wrapper = shallow(<TInput classes="text-black" variant="error" variants={variants} />)
-    expect(wrapper.find('input').props().className).toBe('text-red-500')
+
+    const inputProps = wrapper.first().props();
+
+    expect(inputProps.className).toBe('text-red-500')
+    expect(inputProps.type).toBe('number')
+  });
+
+  it('doesnt adds the props related with the variants', () => {
+    const props = {
+      fixedClasses: 'border',
+      classes: 'text-red-500',
+      variant: 'alt',
+      variants: {
+        alt: {
+          classes: 'text-blue-500',
+          type: 'text',
+        }
+      }
+    }
+
+    const wrapper = shallow(<TInput {...props} />)
+    const inputProps = wrapper.first().props();
+
+    expect(inputProps.fixedClasses).toBeUndefined()
+    expect(inputProps.classes).toBeUndefined()
+    expect(inputProps.variant).toBeUndefined()
+    expect(inputProps.variatns).toBeUndefined()
   });
   
-  it('returns the default classes if no variant', () => {
-    const variants = {
-      error: {
-        classes: 'text-red-500',
-      }
-    }
-
-    const wrapper = shallow(<TInput classes="text-black" variants={variants}  />)
-    expect(wrapper.find('input').props().className).toBe('text-black')
-  });
-
-
-  it('returns the default classes if invalid variant', () => {
-    const wrapper = shallow(<TInput classes="text-black" variant="success" />)
-
-    expect(wrapper.find('input').props().className).toBe('text-black')
-  });
-
-  it('accepts an invalid value for a variant', () => {
-    const variants = {
-      error: {
-        classes: undefined,
-      }
-    }
-
-    const wrapper = shallow(<TInput classes="text-black" variant="error" variants={variants} />)
-    expect(wrapper.find('input').props().className).toBe('text-black')
-  });
-
-  it('uses the classes from the configuration', () => {
+  it('uses the props from the selected configuration variant', () => {
     const configuration: VariantJSConfiguration = {
       TInput: {
-        classes: 'text-black'
-      }
-    }
-
-    const wrapper = mount(
-      <Configuration.Provider value={configuration}>
-        <TInput variant="error" />
-      </Configuration.Provider>
-    )
-
-    expect(wrapper.find('input').props().className).toBe('text-black')
-  });
-
-  it('uses the classes from the selected configuration variant', () => {
-    const configuration: VariantJSConfiguration = {
-      TInput: {
+        classes: 'text-black',
         variants: {
           error: {
+            type: 'number',
             classes: 'text-red-500'
-          }
+          } 
         }
       }
     }
@@ -93,27 +81,31 @@ describe('<TInput />', () => {
       </Configuration.Provider>
     )
 
-    expect(wrapper.find('input').props().className).toBe('text-red-500')
+    const inputProps = wrapper.find('input').props();
+
+    expect(inputProps.className).toBe('text-red-500')
+    expect(inputProps.type).toBe('number')
   });
 
-  it('handles undefined variants from the configuration', () => {
+  it('uses the props from the configuration', () => {
     const configuration: VariantJSConfiguration = {
       TInput: {
-        variants: {
-          error: {
-            classes: 'text-red-500'
-          }
-        }
+        classes: 'text-black',
+        type: 'number'
+        
       }
     }
 
     const wrapper = mount(
       <Configuration.Provider value={configuration}>
-        <TInput variant="success" />
+        <TInput />
       </Configuration.Provider>
     )
 
-    expect(wrapper.find('input').props().className).toBeUndefined()
+    const inputProps = wrapper.find('input').props();
+
+    expect(inputProps.className).toBe('text-black')
+    expect(inputProps.type).toBe('number')
   });
 })
 
