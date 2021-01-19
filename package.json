@@ -46,7 +46,8 @@
   "scripts": {
     "start": "craco start",
     "build": "rollup -c",
-    "test": "craco test",
+    "test": "craco test --watchAll=false",
+    "test-watch": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint src --fix",
     "release": "release-it"
