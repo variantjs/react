@@ -64,7 +64,7 @@ const componentsConfig = Object.keys(components).map((component) => {
       {
         format: "cjs",
         sourcemap: true,
-        entryFileNames: `${component}.cjs.js`,
+        entryFileNames: `${component}.js`,
         name: componentName,
         exports: 'named', 
         dir: 'dist',
@@ -72,7 +72,7 @@ const componentsConfig = Object.keys(components).map((component) => {
       {
         format: "esm",
         sourcemap: true,
-        entryFileNames: `${component}.js`,
+        entryFileNames: `${component}.esm.js`,
         name: componentName,
         exports: 'named', 
         dir: 'dist',
