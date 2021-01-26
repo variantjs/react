@@ -1,12 +1,12 @@
 {
   "name": "@variantjs/react",
   "version": "0.0.1",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/install.js",
+  "module": "dist/install.esm.js",
   "files": [
     "dist"
   ],
-  "typings": "./dist/index.d.ts",
+  "typings": "./dist/install.d.ts",
   "peerDependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -47,7 +47,7 @@
     "start": "craco start",
     "build": "rollup -c",
     "test": "craco test --watchAll=false",
-    "test-watch": "craco test",
+    "test:watch": "craco test --coverage",
     "eject": "react-scripts eject",
     "lint": "eslint src --fix",
     "release": "release-it"

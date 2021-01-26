@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import VariantJs from './install'
+import { VariantJs } from './install'
 import { VariantJSConfiguration } from './context/Configuration';
 
 const configuration: VariantJSConfiguration = {
   TInput: {
     type: 'text',
-    classes: ['bg-red-500', 'border-2'],
+    classes: ['bg-red-500', 'border-2 p-3'],
     variants: {
       test: {
         classes: 'bg-blue-500',

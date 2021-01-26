@@ -2,7 +2,7 @@ import React from 'react';
 import { ObjectWithClassName, parseVariant, WithVariantProps } from '@variantjs/core'
 import { Configuration } from '../context/Configuration'
 
-type ComponentName = 'TInput' | 'TButton';
+type ComponentName = 'TInput' | 'TButton' | 'TSelect';
 
 const withVariants = <P extends ObjectWithClassName>(WrappedComponent: React.ComponentType<P>, componentName: ComponentName, defaultConfiguration?: WithVariantProps<P>) => {
   return class extends React.Component<WithVariantProps<P>> {

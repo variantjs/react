@@ -114,5 +114,16 @@ describe('TInput', () => {
     expect(inputProps.className).toBe('text-black')
     expect(inputProps.type).toBe('number')
   });
+
+
+  it('calls the input handler if set', () => {
+    const inputHandler = jest.fn();
+    
+    const wrapper = mount(<TInput inputHandler={inputHandler} value="hellooou" />)
+
+    wrapper.first().simulate('input')
+
+    expect(inputHandler).toHaveBeenCalledWith('hellooou');
+  });
 })
 
