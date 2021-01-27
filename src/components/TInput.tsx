@@ -10,9 +10,7 @@ const TInput = (props: TInputProps) => {
   const { inputHandler, ...inputProps } = props
   
   if (inputHandler !== undefined) {
-    inputProps.onInput = (e) => {
-inputHandler(e.currentTarget.value)
-    }
+    inputProps.onInput = (e) => inputHandler(e.currentTarget.value)
   }
   
   return <input {...inputProps} />
