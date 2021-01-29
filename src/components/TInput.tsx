@@ -1,18 +1,23 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from 'react'
 import withVariants from '../hoc/WithVariants'
 import defaultConfiguration from '../theme/TInput'
+import { WithChangeHandler, WithState } from '../types'
 
-export type TInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
-  inputHandler?: React.Dispatch<React.SetStateAction<string | undefined>>
-}
+export type TInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+  & WithChangeHandler
+  & WithState
 
 const TInput = (props: TInputProps) => {
-  const { inputHandler, ...inputProps } = props
-  
-  if (inputHandler !== undefined) {
-    inputProps.onInput = (e) => inputHandler(e.currentTarget.value)
+  const { changeHandler, state, ...inputProps } = props
+
+  if (state !== undefined) {
+    const [currentState, setState] = state;
+    inputProps.value = currentState;
+    inputProps.onChange = (e) => setState(e.currentTarget.value);
+  } else if (changeHandler !== undefined) {
+    inputProps.onChange = (e) => changeHandler(e.currentTarget.value);
   }
-  
+
   return <input {...inputProps} />
 }
 

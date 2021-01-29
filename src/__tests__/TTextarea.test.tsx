@@ -117,13 +117,23 @@ describe('TTextarea', () => {
 
 
   it('calls the input handler if set', () => {
-    const inputHandler = jest.fn();
+    const changeHandler = jest.fn();
     
-    const wrapper = mount(<TTextarea inputHandler={inputHandler} value="hellooou" />)
+    const wrapper = mount(<TTextarea changeHandler={changeHandler} value="hellooou" />)
 
-    wrapper.first().simulate('input')
+    wrapper.first().simulate('change')
 
-    expect(inputHandler).toHaveBeenCalledWith('hellooou');
+    expect(changeHandler).toHaveBeenCalledWith('hellooou');
+  });
+
+  it('accept and handle a react state', () => {
+    const setState = jest.fn();
+
+    const wrapper = mount(<TTextarea state={['hellooou', setState]} />)
+
+    wrapper.first().simulate('change')
+
+    expect(setState).toHaveBeenCalledWith('hellooou');
   });
 })
 

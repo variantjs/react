@@ -1,18 +1,21 @@
 import { DetailedHTMLProps, TextareaHTMLAttributes } from 'react'
 import withVariants from '../hoc/WithVariants'
 import defaultConfiguration from '../theme/TTextarea'
+import { WithChangeHandler, WithState } from '../types'
 
-export type TTextareaProps = DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> & {
-  inputHandler?: React.Dispatch<React.SetStateAction<string | undefined>>
-}
+export type TTextareaProps = DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>
+  & WithChangeHandler
+  & WithState
 
 const TTextarea = (props: TTextareaProps) => {
-  const { inputHandler, ...inputProps } = props
+  const { changeHandler, state, ...inputProps } = props
   
-  if (inputHandler !== undefined) {
-    inputProps.onInput = (e) => {
-inputHandler(e.currentTarget.value)
-    }
+  if (state !== undefined) {
+    const [currentState, setState] = state;
+    inputProps.value = currentState;
+    inputProps.onChange = (e) => setState(e.currentTarget.value);
+  } else if (changeHandler !== undefined) {
+    inputProps.onChange = (e) => changeHandler(e.currentTarget.value);
   }
   
   return <textarea {...inputProps} />

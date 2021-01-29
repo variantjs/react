@@ -1,55 +1,50 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TInput from '../components/TInput';
-import TInputTheme from '../theme/TInput'
+import TCheckbox from '../components/TCheckbox';
+import TCheckboxTheme from '../theme/TCheckbox'
 
-// jest.mock('react', () => ({
-//   ...jest.requireActual('react'),
-//   useState: jest.fn(),
-// }));
-
-describe('TInput', () => {
-  it('renders the input without errors', () => {
-    const wrapper = shallow(<TInput />)
+describe('TCheckbox', () => {
+  it('renders the checkbox without errors', () => {
+    const wrapper = shallow(<TCheckbox />)
 
     expect(wrapper).toBeTruthy()
   });
 
   it('has a default theme', () => {
-    const wrapper = shallow(<TInput />)
+    const wrapper = shallow(<TCheckbox />)
 
     const inputProps = wrapper.first().props();
 
-    expect(inputProps.className).toBe(TInputTheme.classes)
+    expect(inputProps.className).toBe(TCheckboxTheme.classes)
   });
 
-  it('accepts text input html attributes', () => {
-    const wrapper = shallow(<TInput type="number" max="10" readOnly={true} placeholder="Hello world" classes={undefined} />)
+  it('accepts checkbox html attributes', () => {
+    const wrapper = shallow(<TCheckbox checked={true} readOnly={true} classes={undefined} />)
 
-    expect(wrapper.html()).toBe('<input type="number" max="10" readonly="" placeholder="Hello world"/>')
+    expect(wrapper.html()).toBe('<input type="checkbox" checked="" readonly=""/>')
   });
   
- it('doesnt have any attributes by default', () => {
-    const wrapper = shallow(<TInput classes={undefined} />)
+ it('only has the type="checkbox" attribute by default', () => {
+    const wrapper = shallow(<TCheckbox classes={undefined} />)
 
-    expect(wrapper.html()).toBe('<input/>')
+    expect(wrapper.html()).toBe('<input type="checkbox"/>')
   });
  
   it('select the props from the selected variant', () => {
     const variants = {
       error: {
         classes: 'text-red-500',
-        type: 'number'
+        value: 'yesyes'
       }
     }
 
-    const wrapper = shallow(<TInput classes="text-black" variant="error" variants={variants} />)
+    const wrapper = shallow(<TCheckbox classes="text-black" variant="error" variants={variants} />)
 
     const inputProps = wrapper.first().props();
 
     expect(inputProps.className).toBe('text-red-500')
-    expect(inputProps.type).toBe('number')
+    expect(inputProps.value).toBe('yesyes')
   });
 
   it('doesnt adds the props related with the variants', () => {
@@ -65,7 +60,7 @@ describe('TInput', () => {
       }
     }
 
-    const wrapper = shallow(<TInput {...props} />)
+    const wrapper = shallow(<TCheckbox {...props} />)
     const inputProps = wrapper.first().props();
 
     expect(inputProps.fixedClasses).toBeUndefined()
@@ -76,11 +71,11 @@ describe('TInput', () => {
   
   it('uses the props from the selected configuration variant', () => {
     const configuration: VariantJSConfiguration = {
-      TInput: {
+      TCheckbox: {
         classes: 'text-black',
         variants: {
           error: {
-            type: 'number',
+            value: 'yesyes',
             classes: 'text-red-500'
           } 
         }
@@ -89,55 +84,74 @@ describe('TInput', () => {
 
     const wrapper = mount(
       <Configuration.Provider value={configuration}>
-        <TInput variant="error" />
+        <TCheckbox variant="error" />
       </Configuration.Provider>
     )
 
     const inputProps = wrapper.find('input').props();
 
     expect(inputProps.className).toBe('text-red-500')
-    expect(inputProps.type).toBe('number')
+    expect(inputProps.value).toBe('yesyes')
   });
 
   it('uses the props from the configuration', () => {
     const configuration: VariantJSConfiguration = {
-      TInput: {
+      TCheckbox: {
         classes: 'text-black',
-        type: 'number'
-        
+        value: 'yesyes'
       }
     }
 
     const wrapper = mount(
       <Configuration.Provider value={configuration}>
-        <TInput />
+        <TCheckbox />
       </Configuration.Provider>
     )
 
     const inputProps = wrapper.find('input').props();
 
     expect(inputProps.className).toBe('text-black')
-    expect(inputProps.type).toBe('number')
+    expect(inputProps.value).toBe('yesyes')
   });
 
   it('calls the input handler if set', () => {
     const changeHandler = jest.fn();
     
-    const wrapper = mount(<TInput changeHandler={changeHandler} value="hellooou" />)
+    const wrapper = mount(<TCheckbox changeHandler={changeHandler} value="hellooou" checked={true} />)
 
     wrapper.first().simulate('change')
 
     expect(changeHandler).toHaveBeenCalledWith('hellooou');
   });
 
-  it('accept and handle a react state', () => {
+  it('calls the input handler with the unchecked value if unchecked', () => {
+    const changeHandler = jest.fn();
+    
+    const wrapper = mount(<TCheckbox changeHandler={changeHandler} value="hellooou" uncheckedValue="NOUP" checked={false} />)
+
+    wrapper.first().simulate('change')
+
+    expect(changeHandler).toHaveBeenCalledWith('NOUP');
+  });
+
+  it('accept and handle a react state with the checked value', () => {
     const setState = jest.fn();
 
-    const wrapper = mount(<TInput state={['hellooou', setState]} />)
+    const wrapper = mount(<TCheckbox state={['', setState]} checked={true} value="hellooou" />)
 
     wrapper.first().simulate('change')
 
     expect(setState).toHaveBeenCalledWith('hellooou');
+  });
+
+  it('accept and handle a react state with the unchecked value', () => {
+    const setState = jest.fn();
+
+    const wrapper = mount(<TCheckbox state={['', setState]} value="hellooou" uncheckedValue="NOUP" checked={false} />)
+
+    wrapper.first().simulate('change')
+
+    expect(setState).toHaveBeenCalledWith('NOUP');
   });
 })
 
