@@ -4,7 +4,14 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "rollup-plugin-typescript2";
 import del from 'rollup-plugin-delete';
 
+const { removeDataTestIdTransformer } = require('typescript-transformer-jsx-remove-data-test-id');
+
 const packageJson = require("./package.json");
+
+const removeDataTestId = () => ({
+  before: [ removeDataTestIdTransformer() ],
+})
+
 
 const config =  [{
   input: "src/install.tsx",
@@ -29,6 +36,7 @@ const config =  [{
       declaration: true,
       declarationDir: 'dist',
       rootDir: 'src',
+      transformers: [removeDataTestId]
     }),
   ]
 }];

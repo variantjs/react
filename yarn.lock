@@ -13380,6 +13380,11 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
+typescript-transformer-jsx-remove-data-test-id@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/typescript-transformer-jsx-remove-data-test-id/-/typescript-transformer-jsx-remove-data-test-id-1.1.0.tgz#b880aeec232b826205e892794f2176e4e68c1185"
+  integrity sha512-EZ0NNsp6c9PD2ViNT2VKBJxXAs0QKFt4h3q5gcOYV/iODa8BW6yMlhnMWWxlXKgviZdyhSYAgLh5WZPbXmt0xg==
+
 typescript@^4.0.3:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.1.3.tgz#519d582bd94cba0cf8934c7d8e8467e473f53bb7"

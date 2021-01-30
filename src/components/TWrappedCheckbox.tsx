@@ -2,7 +2,6 @@ import defaultConfiguration from '../theme/TWrappedCheckbox'
 import TCheckbox, { TCheckboxProps } from './TCheckbox'
 import withVariantsWithinClassesList from '../hoc/WithVariantsWithinClassesList'
 import { WithClassesList } from '../types'
-import { useRef } from 'react';
 
 export type TWrappedCheckboxProps = TCheckboxProps & WithClassesList & {
   label?: string
@@ -34,8 +33,6 @@ const TWrappedCheckbox = (props: TWrappedCheckboxProps) => {
     ...inputProps
   } = props
 
-  let labelRef = useRef(null)
-
   return (
     <WrapperTag tabIndex={tabIndex} className={[className, classesList?.wrapper].join(' ').trim() || undefined} htmlFor={inputProps.id}>
       <InputWrapperTag className={classesList?.inputWrapper}>
@@ -50,7 +47,7 @@ const TWrappedCheckbox = (props: TWrappedCheckboxProps) => {
       <LabelTag className={classesList?.label}>
         { label !== undefined ? label : children }
       </LabelTag>
-      <span ref={labelRef}></span>
+      <span data-test-id="label"></span>
     </WrapperTag>
   ) 
 }
