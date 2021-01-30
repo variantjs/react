@@ -26,15 +26,23 @@ describe('TWrappedCheckbox', () => {
   });
 
   it('accepts checkbox html attributes', () => {
-    const wrapper = shallow(<TWrappedCheckbox checked={true} readOnly={true} classes={emptyClasses} />)
+    const wrapper = mount(<TWrappedCheckbox checked={true} readOnly={true} classes={emptyClasses} />)
 
-    expect(wrapper.html()).toBe('<label><span><input type="checkbox" checked="" readonly=""/></span><span></span></label>')
+    expect(wrapper.find('input').props()).toEqual({
+      type: 'checkbox',
+      tabIndex: undefined,
+      checked: true,
+      readOnly: true
+    })
   });
   
    it('only has the type="checkbox" attribute by default', () => {
-    const wrapper = shallow(<TWrappedCheckbox classes={emptyClasses} />)
+    const wrapper = mount(<TWrappedCheckbox classes={emptyClasses} />)
 
-    expect(wrapper.html()).toBe('<label><span><input type="checkbox"/></span><span></span></label>')
+    expect(wrapper.find('input').props()).toEqual({
+      type: 'checkbox',
+      tabIndex: undefined,      
+    })
   });
  
   it('select the props from the selected variant', () => {
@@ -192,25 +200,37 @@ describe('TWrappedCheckbox', () => {
   it('accepts a label prop that is used as the text of the input', () => {
     const wrapper = mount(<TWrappedCheckbox label="Check me" />)
 
-    console.log(wrapper.ref('labelRef'))
-    
-    // expect(wrapper.text()).toBe(0)
-    // expect(inputProps.tabIndex).toBe(-1)
+    expect(wrapper.find('[data-test-id="label"]').text()).toBe('Check me')
   });
 
+  it('uses the children content as the label', () => {
+    const wrapper = mount(<TWrappedCheckbox>Check me</TWrappedCheckbox>)
+
+    expect(wrapper.find('[data-test-id="label"]').text()).toBe('Check me')
+  });
 
   it('uses the id as the htmlFor of the wrapper label', () => {
-    expect(true).toBe(false)
+    const wrapper = mount(<TWrappedCheckbox id="check" />)
+
+    expect(wrapper.find('label').prop('htmlFor')).toBe('check')
   })
   
   it('accepts a custom wrapper tag', () => {
-    expect(true).toBe(false)
+    const wrapper = mount(<TWrappedCheckbox wrapperTag="strong" />)
+
+    expect(wrapper.find('[data-test-id="wrapper"]').is('strong')).toBe(true)
   })
+
   it('accepts a custom label tag', () => {
-    expect(true).toBe(false)
+    const wrapper = mount(<TWrappedCheckbox labelTag="strong" />)
+
+    expect(wrapper.find('[data-test-id="label"]').is('strong')).toBe(true)
   })
+
   it('accepts a input wrapper tag', () => {
-    expect(true).toBe(false)
+    const wrapper = mount(<TWrappedCheckbox inputWrapperTag="strong" />)
+
+    expect(wrapper.find('[data-test-id="inputWrapper"]').is('strong')).toBe(true)
   })
 })
 

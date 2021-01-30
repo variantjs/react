@@ -34,8 +34,8 @@ const TWrappedCheckbox = (props: TWrappedCheckboxProps) => {
   } = props
 
   return (
-    <WrapperTag tabIndex={tabIndex} className={[className, classesList?.wrapper].join(' ').trim() || undefined} htmlFor={inputProps.id}>
-      <InputWrapperTag className={classesList?.inputWrapper}>
+    <WrapperTag data-test-id="wrapper" tabIndex={tabIndex} className={[className, classesList?.wrapper].join(' ').trim() || undefined} htmlFor={inputProps.id}>
+      <InputWrapperTag data-test-id="inputWrapper" className={classesList?.inputWrapper}>
         <TCheckbox
           className={classesList?.input}
           classes={undefined}
@@ -44,10 +44,9 @@ const TWrappedCheckbox = (props: TWrappedCheckboxProps) => {
           {...inputProps as any }
         />
       </InputWrapperTag>
-      <LabelTag className={classesList?.label}>
+      <LabelTag data-test-id="label" className={classesList?.label}>
         { label !== undefined ? label : children }
       </LabelTag>
-      <span data-test-id="label"></span>
     </WrapperTag>
   ) 
 }
