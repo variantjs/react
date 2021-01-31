@@ -2,14 +2,12 @@ import { DetailedHTMLProps, SelectHTMLAttributes, ChangeEvent } from 'react'
 import { InputOptions, normalizeOptions } from '@variantjs/core'
 import withVariants from '../hoc/WithVariants'
 import defaultConfiguration from '../theme/TSelect'
-import { WithChangeHandler, WithState } from '../types';
-import { handleStateAndChangeHandler } from '../utils/handleStateAndChangeHandler';
+import { handleStateAndChangeHandler, WithStateAndChangeHandler } from '../utils/handleStateAndChangeHandler';
 
 export type TSelectValue = string | undefined | string[];
 
 export type TSelectProps = DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>
-  & WithChangeHandler
-  & WithState
+  & WithStateAndChangeHandler
   & {
     options?: InputOptions
   }

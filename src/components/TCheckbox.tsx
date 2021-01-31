@@ -1,14 +1,12 @@
 import { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'react'
 import withVariants from '../hoc/WithVariants'
 import defaultConfiguration from '../theme/TCheckbox'
-import { WithChangeHandler, WithState } from '../types'
-import { handleStateAndChangeHandler } from '../utils/handleStateAndChangeHandler'
+import { handleStateAndChangeHandler, WithStateAndChangeHandler } from '../utils/handleStateAndChangeHandler'
 
 type InputWithouthType = Pick<InputHTMLAttributes<HTMLInputElement>, Exclude<keyof InputHTMLAttributes<HTMLInputElement>, "type">>
 
 export type TCheckboxProps = DetailedHTMLProps<InputWithouthType, HTMLInputElement>
-  & WithChangeHandler
-  & WithState
+  & WithStateAndChangeHandler
   & {
     uncheckedValue?: string | number | readonly string[] | undefined,
   }

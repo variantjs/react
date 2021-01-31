@@ -1,12 +1,10 @@
 import { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'react'
 import withVariants from '../hoc/WithVariants'
 import defaultConfiguration from '../theme/TInput'
-import { WithChangeHandler, WithState } from '../types'
-import { handleStateAndChangeHandler } from '../utils/handleStateAndChangeHandler'
+import { handleStateAndChangeHandler, WithStateAndChangeHandler } from '../utils/handleStateAndChangeHandler'
 
 export type TInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-  & WithChangeHandler
-  & WithState
+  & WithStateAndChangeHandler
 
 const TInput = (props: TInputProps) => {
   const inputProps = handleStateAndChangeHandler<TInputProps, ChangeEvent<HTMLInputElement>>(

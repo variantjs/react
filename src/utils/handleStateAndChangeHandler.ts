@@ -1,7 +1,11 @@
 import { SyntheticEvent } from "react";
-import { WithChangeHandler, WithState } from "../types";
 
-export const handleStateAndChangeHandler = <P extends (WithChangeHandler & WithState & { onChange?: (e: K) => void , value?: any }), K extends SyntheticEvent>(
+export type WithStateAndChangeHandler = {
+  changeHandler?: (value: any) => void,
+  state?: [any, (value: any) => void],
+}
+
+export const handleStateAndChangeHandler = <P extends (WithStateAndChangeHandler & { onChange?: (e: K) => void , value?: any }), K extends SyntheticEvent>(
   props: P,
   getEventValue: (e: K) => any,
   assignStateValue = true
