@@ -38,7 +38,6 @@ export const handleStateAndChangeHandler = <P extends (WithStateAndChangeHandler
         props.onChange(e)
       }
     }
-    
   }
 
   if (onChange !== undefined) {

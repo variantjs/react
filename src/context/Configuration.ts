@@ -2,6 +2,7 @@ import React from 'react'
 import { WithVariantProps } from '@variantjs/core'
 import { TInputProps } from '../components/TInput';
 import { TCheckboxProps } from '../components/TCheckbox';
+import { TRadioProps } from '../components/TRadio';
 import { TButtonProps } from '../components/TButton';
 import { TSelectProps } from '../components/TSelect';
 import { TTextareaProps } from '../components/TTextarea';
@@ -14,6 +15,7 @@ export type VariantJSConfiguration = {
   TTextarea?: WithVariantProps<TTextareaProps>
   TCheckbox?: WithVariantProps<TCheckboxProps>
   TWrappedCheckbox?: WithVariantProps<TWrappedCheckboxProps>
+  TRadio?: WithVariantProps<TRadioProps>
 }
 
 export const Configuration = React.createContext<VariantJSConfiguration>({});

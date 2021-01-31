@@ -4,6 +4,7 @@ import TTextarea from '../theme/TTextarea'
 import TSelect from '../theme/TSelect'
 import TInput from '../theme/TInput'
 import TCheckbox from '../theme/TCheckbox'
+import TRadio from '../theme/TRadio'
 import TWrappedCheckbox from '../theme/TWrappedCheckbox'
 
 it('export the complete theme', () => {
@@ -13,6 +14,7 @@ it('export the complete theme', () => {
     TButton: TButton,
     TSelect: TSelect,
     TCheckbox: TCheckbox,
+    TRadio: TRadio,
     TWrappedCheckbox: TWrappedCheckbox,
   })
 });
