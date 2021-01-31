@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import defaultConfiguration from '../theme/TWrappedCheckbox'
 import TCheckbox, { TCheckboxProps } from './TCheckbox'
 import withVariantsWithinClassesList from '../hoc/WithVariantsWithinClassesList'
@@ -30,21 +31,54 @@ const TWrappedCheckbox = (props: TWrappedCheckboxProps) => {
     wrapperTag: WrapperTag = 'label',
     inputWrapperTag: InputWrapperTag = 'span',
     tabIndex,
+    state,
+    value,
+    uncheckedValue,
+    checked,
     ...inputProps
   } = props
 
+  const currentState = state ? state[0] : undefined;
+  
+  let isChecked: boolean | undefined = checked;
+
+  if (currentState !== undefined) {
+    if (uncheckedValue !== undefined && currentState === uncheckedValue) {
+      isChecked = false 
+    } else if (currentState === value) {
+      isChecked = true;
+    }
+  }
+
+  const [checkedState, setChecked] = useState<boolean | undefined>(isChecked);
+  
+  const checkbox = <TCheckbox
+    className={classesList?.input}
+    classes={undefined}
+    fixedClasses={undefined}
+    tabIndex={tabIndex !== undefined ? -1 : undefined}
+    onChange={(e) => {
+      const { checked } = e.currentTarget;
+      setChecked(checked)
+    }}
+    state={state}
+    value={value}
+    checked={isChecked}
+    uncheckedValue={uncheckedValue}
+    {...inputProps as any }
+  />
+
+  
+  const wrapperClass = checkedState && classesList?.wrapperChecked !== undefined ? classesList.wrapperChecked : classesList?.wrapper;
+  const labelClass = checkedState && classesList?.labelChecked !== undefined ? classesList.labelChecked : classesList?.label;
+  const inputWrapperClass = checkedState && classesList?.inputWrapperChecked !== undefined ? classesList.inputWrapperChecked : classesList?.inputWrapper;
+
   return (
-    <WrapperTag data-test-id="wrapper" tabIndex={tabIndex} className={[className, classesList?.wrapper].join(' ').trim() || undefined} htmlFor={inputProps.id}>
-      <InputWrapperTag data-test-id="inputWrapper" className={classesList?.inputWrapper}>
-        <TCheckbox
-          className={classesList?.input}
-          classes={undefined}
-          fixedClasses={undefined}
-          tabIndex={tabIndex !== undefined ? -1 : undefined}
-          {...inputProps as any }
-        />
+    <WrapperTag data-checked={isChecked} data-test-id="wrapper" tabIndex={tabIndex} className={[className, wrapperClass].join(' ').trim() || undefined} htmlFor={inputProps.id}>
+      <InputWrapperTag data-test-id="inputWrapper" className={inputWrapperClass}>
+        { checkbox }
       </InputWrapperTag>
-      <LabelTag data-test-id="label" className={classesList?.label}>
+      <LabelTag data-test-id="label" className={labelClass}>
         { label !== undefined ? label : children }
       </LabelTag>
     </WrapperTag>

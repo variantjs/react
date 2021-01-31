@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TWrappedCheckbox, {classesListKeys} from '../components/TWrappedCheckbox';
+import TWrappedCheckbox, { classesListKeys } from '../components/TWrappedCheckbox';
 import TWrappedCheckboxTheme from '../theme/TWrappedCheckbox'
 import { CSSClassesList, pick } from '@variantjs/core'
 
@@ -28,7 +28,11 @@ describe('TWrappedCheckbox', () => {
   it('accepts checkbox html attributes', () => {
     const wrapper = mount(<TWrappedCheckbox checked={true} readOnly={true} classes={emptyClasses} />)
 
-    expect(wrapper.find('input').props()).toEqual({
+    const props = wrapper.find('input').props();
+    // For now im not considering this attribute
+    delete props.onChange;
+
+    expect(props).toEqual({
       type: 'checkbox',
       tabIndex: undefined,
       checked: true,
@@ -39,7 +43,11 @@ describe('TWrappedCheckbox', () => {
    it('only has the type="checkbox" attribute by default', () => {
     const wrapper = mount(<TWrappedCheckbox classes={emptyClasses} />)
 
-    expect(wrapper.find('input').props()).toEqual({
+    const props = wrapper.find('input').props();
+    // For now im not considering this attribute
+    delete props.onChange;
+
+    expect(props).toEqual({
       type: 'checkbox',
       tabIndex: undefined,      
     })
@@ -167,10 +175,10 @@ describe('TWrappedCheckbox', () => {
     expect(changeHandler).toHaveBeenCalledWith('NOUP');
   });
 
-  it('accept and handle a react state with the checked value', () => {
+  it('handle a react state with the new value', () => {
     const setState = jest.fn();
 
-    const wrapper = mount(<TWrappedCheckbox state={['', setState]} checked={true} value="hellooou" />)
+    const wrapper = mount(<TWrappedCheckbox state={['hellooou', setState]} value="hellooou" />)
 
     wrapper.find('input').simulate('change')
 
@@ -200,13 +208,13 @@ describe('TWrappedCheckbox', () => {
   it('accepts a label prop that is used as the text of the input', () => {
     const wrapper = mount(<TWrappedCheckbox label="Check me" />)
 
-    expect(wrapper.find('[data-test-id="label"]').text()).toBe('Check me')
+    expect(wrapper.byTestId('label').text()).toBe('Check me')
   });
 
   it('uses the children content as the label', () => {
     const wrapper = mount(<TWrappedCheckbox>Check me</TWrappedCheckbox>)
 
-    expect(wrapper.find('[data-test-id="label"]').text()).toBe('Check me')
+    expect(wrapper.byTestId('label').text()).toBe('Check me')
   });
 
   it('uses the id as the htmlFor of the wrapper label', () => {
@@ -218,20 +226,92 @@ describe('TWrappedCheckbox', () => {
   it('accepts a custom wrapper tag', () => {
     const wrapper = mount(<TWrappedCheckbox wrapperTag="strong" />)
 
-    expect(wrapper.find('[data-test-id="wrapper"]').is('strong')).toBe(true)
+    expect(wrapper.byTestId('wrapper').is('strong')).toBe(true)
   })
 
   it('accepts a custom label tag', () => {
     const wrapper = mount(<TWrappedCheckbox labelTag="strong" />)
 
-    expect(wrapper.find('[data-test-id="label"]').is('strong')).toBe(true)
+    expect(wrapper.byTestId('label').is('strong')).toBe(true)
   })
 
   it('accepts a input wrapper tag', () => {
     const wrapper = mount(<TWrappedCheckbox inputWrapperTag="strong" />)
 
-    expect(wrapper.find('[data-test-id="inputWrapper"]').is('strong')).toBe(true)
+    expect(wrapper.byTestId('inputWrapper').is('strong')).toBe(true)
   })
+
+  it('set as not checked if checked false', () => {
+    const wrapper = mount(<TWrappedCheckbox checked={false}  />)
+
+    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(false)
+    expect(wrapper.find('input').prop('checked')).toBe(false)
+  })
+
+  it('set as checked if checked true', () => {
+    const wrapper = mount(<TWrappedCheckbox checked={true}  />)
+
+    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(true)
+    expect(wrapper.find('input').prop('checked')).toBe(true)
+  })
+  
+  it('set as checked if the value is the same as the state and no checked attribute', () => {
+    const state: [string, () => void] = ["selected", () => {}]
+    
+    const wrapper = mount(<TWrappedCheckbox value="selected" state={state} />)
+
+    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(true)
+  })
+
+  it('set as the checked attribute if the value is different to the state', () => {
+    const state: [string, () => void] = ["selected", () => {}]
+    
+    const wrapper = mount(<TWrappedCheckbox value="other" state={state} checked={true} />)
+
+    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(true)
+  })
+  
+  it('set as the checked attribute if the value is different to the state 2', () => {
+    const state: [string, () => void] = ["selected", () => {}]
+    
+    const wrapper = mount(<TWrappedCheckbox value="other" state={state} checked={false} />)
+
+    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(false)
+  })
+
+  it('set as undefined if the state is not the checked or the unchecked value', () => {
+    const state: [string, () => void] = ["nopup", () => {}]
+    
+    const wrapper = mount(<TWrappedCheckbox value="selected" uncheckedValue="unselected" state={state}  />)
+
+    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBeUndefined()
+  })
+
+  it('set as checked if the value is equal to the state even if has the checked attribute as false', () => {
+    const state: [string, () => void] = ["selected", () => {}]
+    
+    const wrapper = mount(<TWrappedCheckbox value="selected" state={state} checked={false} />)
+
+    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(true)
+  })
+
+  it('set as not checked if the uncheckedValue is equal to the state', () => {
+    const state: [string, () => void] = ["unselected", () => {}]
+    
+    const wrapper = mount(<TWrappedCheckbox value="selected" uncheckedValue="unselected" state={state}  />)
+
+    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(false)
+  })
+  
+  it('set as not checked if the uncheckedValue is equal to the state even if the checked attribute is true', () => {
+    const state: [string, () => void] = ["unselected", () => {}]
+    
+    const wrapper = mount(<TWrappedCheckbox value="selected" uncheckedValue="unselected" state={state} checked={true}  />)
+
+    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(false)
+  })
+  
+  
 })
 
 
