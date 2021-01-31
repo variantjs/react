@@ -310,6 +310,28 @@ describe('TWrappedCheckbox', () => {
 
     expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(false)
   })
+
+  it('calls the on change event even if have a change handler', () => {
+    const onChange = jest.fn();
+
+    const wrapper = mount(<TWrappedCheckbox changeHandler={() => {}} onChange={onChange} />)
+
+    wrapper.find('input').simulate('change')
+
+    expect(onChange).toHaveBeenCalled();
+  })
+  
+  it('calls the on change event even if have a state', () => {
+    const onChange = jest.fn();
+
+    const state: [string, () => void] = ["unselected", () => {}]
+    
+    const wrapper = mount(<TWrappedCheckbox state={state} onChange={onChange} />)
+
+    wrapper.find('input').simulate('change')
+
+    expect(onChange).toHaveBeenCalled();
+  })
   
   
 })

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import defaultConfiguration from '../theme/TWrappedCheckbox'
-import TCheckbox, { TCheckboxProps } from './TCheckbox'
+import TCheckbox, { TCheckboxProps, shouldBeChecked } from './TCheckbox'
 import withVariantsWithinClassesList from '../hoc/WithVariantsWithinClassesList'
 import { WithClassesList } from '../types'
 
@@ -38,17 +38,7 @@ const TWrappedCheckbox = (props: TWrappedCheckboxProps) => {
     ...inputProps
   } = props
 
-  const currentState = state ? state[0] : undefined;
-  
-  let isChecked: boolean | undefined = checked;
-
-  if (currentState !== undefined) {
-    if (uncheckedValue !== undefined && currentState === uncheckedValue) {
-      isChecked = false 
-    } else if (currentState === value) {
-      isChecked = true;
-    }
-  }
+  const isChecked = shouldBeChecked(state, checked, value, uncheckedValue);
 
   const [checkedState, setChecked] = useState<boolean | undefined>(isChecked);
   

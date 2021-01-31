@@ -137,7 +137,7 @@ describe('TCheckbox', () => {
   it('accept and handle a react state with the checked value', () => {
     const setState = jest.fn();
 
-    const wrapper = mount(<TCheckbox state={['', setState]} checked={true} value="hellooou" />)
+    const wrapper = mount(<TCheckbox state={['hellooou', setState]} checked={true} value="hellooou" />)
 
     wrapper.first().simulate('change')
 
@@ -153,5 +153,103 @@ describe('TCheckbox', () => {
 
     expect(setState).toHaveBeenCalledWith('NOUP');
   });
+
+  it('set as not checked if checked false', () => {
+    const wrapper = mount(<TCheckbox checked={false} onChange={() => {}}  />)
+
+    expect(wrapper.find('input').prop('checked')).toBe(false)
+  })
+
+  it('set as checked if checked true', () => {
+    const wrapper = mount(<TCheckbox checked={true} onChange={() => {}}  />)
+
+    expect(wrapper.find('input').prop('checked')).toBe(true)
+  })
+  
+  it('set as checked if the value is the same as the state and no checked attribute', () => {
+    const state: [string, () => void] = ["selected", () => {}]
+    
+    const wrapper = mount(<TCheckbox value="selected" state={state} />)
+
+    expect(wrapper.find('input').prop('checked')).toBe(true)
+  })
+
+  it('set as the checked attribute if the value is different to the state', () => {
+    const state: [string, () => void] = ["selected", () => {}]
+    
+    const wrapper = mount(<TCheckbox value="other" state={state} checked={true} />)
+
+    expect(wrapper.find('input').prop('checked')).toBe(true)
+  })
+  
+  it('set as the checked attribute if the value is different to the state 2', () => {
+    const state: [string, () => void] = ["selected", () => {}]
+    
+    const wrapper = mount(<TCheckbox value="other" state={state} checked={false} />)
+
+    expect(wrapper.find('input').prop('checked')).toBe(false)
+  })
+
+  it('set as undefined if the state is not the checked or the unchecked value', () => {
+    const state: [string, () => void] = ["nopup", () => {}]
+    
+    const wrapper = mount(<TCheckbox value="selected" uncheckedValue="unselected" state={state}  />)
+
+    expect(wrapper.find('input').prop('checked')).toBeUndefined()
+  })
+
+  it('set as checked if the value is equal to the state even if has the checked attribute as false', () => {
+    const state: [string, () => void] = ["selected", () => {}]
+    
+    const wrapper = mount(<TCheckbox value="selected" state={state} checked={false} />)
+
+    expect(wrapper.find('input').prop('checked')).toBe(true)
+  })
+
+  it('set as not checked if the uncheckedValue is equal to the state', () => {
+    const state: [string, () => void] = ["unselected", () => {}]
+    
+    const wrapper = mount(<TCheckbox value="selected" uncheckedValue="unselected" state={state}  />)
+
+    expect(wrapper.find('input').prop('checked')).toBe(false)
+  })
+  
+  it('set as not checked if the uncheckedValue is equal to the state even if the checked attribute is true', () => {
+    const state: [string, () => void] = ["unselected", () => {}]
+    
+    const wrapper = mount(<TCheckbox value="selected" uncheckedValue="unselected" state={state} checked={true}  />)
+
+    expect(wrapper.find('input').prop('checked')).toBe(false)
+  })
+
+  it('calls the on change event even if have a change handler', () => {
+    const onChange = jest.fn();
+
+    const event = {
+      currentTarget: { value: 'hellooou' }
+    };
+    
+    const wrapper = shallow(<TCheckbox changeHandler={() => {}} value="hellooou" checked={true} onChange={onChange} />)
+
+    wrapper.first().simulate('change', event)
+
+    expect(onChange).toHaveBeenCalledWith(event);
+  })
+  
+  it('calls the on change event even if have a state', () => {
+    const onChange = jest.fn();
+
+    const event = {
+      currentTarget: { value: 'hellooou' }
+    };
+
+    const state: [string, () => void] = ["unselected", () => {}]
+    
+    const wrapper = shallow(<TCheckbox state={state} onChange={onChange} />)
+
+    wrapper.first().simulate('change', event)
+
+    expect(onChange).toHaveBeenCalledWith(event);
+  })
 })
 

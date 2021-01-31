@@ -10,8 +10,29 @@ export type TCheckboxProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElem
     uncheckedValue?: string | number | readonly string[] | undefined,
   }
 
+export const shouldBeChecked = (
+  state?: [any, (value: any) => void],
+  inputChecked?: boolean,
+  value?: string | number | readonly string[] | undefined,
+  uncheckedValue?: string | number | readonly string[] | undefined,
+): boolean | undefined => {
+  const currentState = state ? state[0] : undefined;
+  
+  if (currentState !== undefined) {
+    if (uncheckedValue !== undefined && currentState === uncheckedValue) {
+      return false
+    } else if (currentState === value) {
+      return true
+    }
+  }
+
+  return inputChecked
+}
+
 const TCheckbox = (props: TCheckboxProps) => {
-  const { changeHandler, state, type, uncheckedValue = '', onChange: originalOnChange, ...inputProps } = props
+  const { changeHandler, state, type, uncheckedValue = '', checked, value, onChange: originalOnChange, ...inputProps } = props
+
+  const isChecked = shouldBeChecked(state, checked, value, uncheckedValue);
 
   let onChange = originalOnChange;
 
@@ -36,7 +57,7 @@ const TCheckbox = (props: TCheckboxProps) => {
     };
   }
   
-  return <input onChange={onChange} type="checkbox" {...inputProps} />
+  return <input onChange={onChange} checked={isChecked} value={value} type="checkbox" {...inputProps} />
 }
 
 export default withVariants<TCheckboxProps>(TCheckbox, 'TCheckbox', defaultConfiguration)
