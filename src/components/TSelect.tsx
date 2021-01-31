@@ -1,38 +1,62 @@
-import { DetailedHTMLProps, SelectHTMLAttributes } from 'react'
+import { DetailedHTMLProps, SelectHTMLAttributes, ChangeEvent } from 'react'
 import { InputOptions, normalizeOptions } from '@variantjs/core'
-
 import withVariants from '../hoc/WithVariants'
 import defaultConfiguration from '../theme/TSelect'
+import { WithChangeHandler, WithState } from '../types';
 
 export type TSelectValue = string | undefined | string[];
 
-export type TSelectProps = DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> & {
-  options?: InputOptions,
-  inputHandler?: (value: any) => void,
-}
+export type TSelectProps = DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>
+  & WithChangeHandler
+  & WithState
+  & {
+    options?: InputOptions
+  }
 
 const TSelect = (props: TSelectProps) => {
-  const { options, inputHandler, ...inputProps } = props
+  const { options, changeHandler, state, onChange: originalOnChange, ...inputProps } = props
 
   let normalizedOptions;
   if (options !== undefined) {
     normalizedOptions = normalizeOptions(options)
   }
 
-  if (inputHandler !== undefined) {
-    inputProps.onInput = (e) => {
+  let onChange = originalOnChange;
+  
+  if (state !== undefined) {
+    const [currentState, setState] = state;
+    inputProps.value = currentState;
+    onChange = (e: ChangeEvent<HTMLSelectElement>) => {
       const select = e.currentTarget;
       if (select.multiple) {
         const values = Array.from(select.selectedOptions).map(o => o.value);
-        inputHandler(values)
+        setState(values)
       } else {
-        inputHandler(select.value)
+        setState(select.value)
+      }
+
+      if (typeof originalOnChange === 'function') {
+        originalOnChange(e)
+      }
+    };
+  } else if (changeHandler !== undefined) {
+    onChange = (e: ChangeEvent<HTMLSelectElement>) => {
+      const select = e.currentTarget;
+      if (select.multiple) {
+        const values = Array.from(select.selectedOptions).map(o => o.value);
+        changeHandler(values)
+      } else {
+        changeHandler(select.value)
+      }
+
+      if (typeof originalOnChange === 'function') {
+        originalOnChange(e)
       }
     }
   }
 
   return  (
-    <select {...inputProps}>
+    <select onChange={onChange} {...inputProps}>
       {normalizedOptions?.map((option, index) => {
         if (option.children && option.children.length) {
           return <optgroup

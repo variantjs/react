@@ -139,5 +139,27 @@ describe('TInput', () => {
 
     expect(setState).toHaveBeenCalledWith('hellooou');
   });
+
+  it('calls the on change event even if have a change handler', () => {
+    const onChange = jest.fn();
+
+    const wrapper = mount(<TInput changeHandler={() => {}} onChange={onChange} />)
+
+    wrapper.first().simulate('change')
+
+    expect(onChange).toHaveBeenCalled();
+  })
+
+  it('calls the on change event even if have a state', () => {
+    const onChange = jest.fn();
+
+    const state: [string, () => void] = ["unselected", () => {}]
+    
+    const wrapper = mount(<TInput state={state} onChange={onChange} />)
+
+    wrapper.first().simulate('change')
+
+    expect(onChange).toHaveBeenCalled();
+  })
 })
 

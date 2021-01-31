@@ -116,25 +116,71 @@ describe('TSelect', () => {
   });
 
 
-  it('calls the input handler if set', () => {
-    const inputHandler = jest.fn();
-    
-    const wrapper = mount(<TSelect inputHandler={inputHandler} options={['hellooou']} value="hellooou" />)
-
-    wrapper.first().simulate('input')
-
-    expect(inputHandler).toHaveBeenCalledWith('hellooou');
-  });
 
   it('the input handler sends an array if multiple', () => {
-    const inputHandler = jest.fn();
+    const changeHandler = jest.fn();
     
-    const wrapper = mount(<TSelect multiple inputHandler={inputHandler} options={['hellooou']} value={['hellooou']} />)
+    const wrapper = mount(<TSelect multiple changeHandler={changeHandler} options={['hellooou']} value={['hellooou']} />)
 
-    wrapper.first().simulate('input')
+    wrapper.first().simulate('change')
 
-    expect(inputHandler).toHaveBeenCalledWith(['hellooou']);
+    expect(changeHandler).toHaveBeenCalledWith(['hellooou']);
   });
+
+  it('calls the input handler if set', () => {
+    const changeHandler = jest.fn();
+    const wrapper = mount(<TSelect changeHandler={changeHandler} options={['hellooou']} value="hellooou" />)
+
+    wrapper.first().simulate('change')
+
+    expect(changeHandler).toHaveBeenCalledWith('hellooou');
+  });
+
+  it('accept and handle a react state', () => {
+    const setState = jest.fn();
+
+    const state: [string, () => void] = ["hellooou", setState]
+
+    const wrapper = mount(<TSelect state={state} options={['hellooou']} value="hellooou" />)
+
+    wrapper.first().simulate('change')
+
+    expect(setState).toHaveBeenCalledWith('hellooou');
+  });
+
+  it('the state handler store an array if multiple', () => {
+    const setState = jest.fn();
+
+    const state: [string[], () => void] = [['hellooou'], setState]
+
+    const wrapper = mount(<TSelect state={state} options={['hellooou']} value={['hellooou']} multiple />)
+
+    wrapper.first().simulate('change')
+
+    expect(setState).toHaveBeenCalledWith(['hellooou']);
+  });
+
+  it('calls the on change event even if have a change handler', () => {
+    const onChange = jest.fn();
+
+    const wrapper = mount(<TSelect changeHandler={() => {}} onChange={onChange}  options={['hellooou']} value="hellooou" />)
+    
+    wrapper.first().simulate('change')
+
+    expect(onChange).toHaveBeenCalled();
+  })
+
+  it('calls the on change event even if have a state', () => {
+    const onChange = jest.fn();
+
+    const state: [string, () => void] = ["hellooou", () => {}]
+    
+    const wrapper = mount(<TSelect state={state} onChange={onChange}  options={['hellooou']} value="hellooou" />)
+
+    wrapper.first().simulate('change')
+
+    expect(onChange).toHaveBeenCalled();
+  })
 })
 
 describe('TSelect options', () => {
@@ -240,5 +286,18 @@ describe('TSelect options', () => {
     const html = wrapper.html()
 
     expect(html).toBe('<select><optgroup><option>A</option></optgroup></select>');
+  });
+
+
+  it('select the options in the value', () => {
+    const options = ['A', 'B', 'C', 'D'];
+    const value = ['A', 'D'];
+      
+    
+    const wrapper = mount(<TSelect options={options} value={value} multiple changeHandler={() => {}} />)
+
+    const select: any = wrapper.find('select').instance()
+
+    expect(Array.from((select as HTMLSelectElement).selectedOptions).map(o => o.value)).toEqual(value);
   });
 })

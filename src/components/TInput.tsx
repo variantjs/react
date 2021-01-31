@@ -8,17 +8,31 @@ export type TInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement
   & WithState
 
 const TInput = (props: TInputProps) => {
-  const { changeHandler, state, ...inputProps } = props
+  const { changeHandler, state, onChange: originalOnChange, ...inputProps } = props
+
+  let onChange = originalOnChange;
 
   if (state !== undefined) {
     const [currentState, setState] = state;
     inputProps.value = currentState;
-    inputProps.onChange = (e) => setState(e.currentTarget.value);
+    onChange = (e) => {
+      setState(e.currentTarget.value)
+
+      if (typeof originalOnChange === 'function') {
+        originalOnChange(e)
+      }
+    };
   } else if (changeHandler !== undefined) {
-    inputProps.onChange = (e) => changeHandler(e.currentTarget.value);
+    onChange = (e) => {
+      changeHandler(e.currentTarget.value);
+
+      if (typeof originalOnChange === 'function') {
+        originalOnChange(e)
+      }
+    }
   }
 
-  return <input {...inputProps} />
+  return <input onChange={onChange} {...inputProps} />
 }
 
 export default withVariants<TInputProps>(TInput, 'TInput', defaultConfiguration)

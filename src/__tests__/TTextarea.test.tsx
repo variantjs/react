@@ -115,7 +115,6 @@ describe('TTextarea', () => {
     expect(inputProps.rows).toBe(4)
   });
 
-
   it('calls the input handler if set', () => {
     const changeHandler = jest.fn();
     
@@ -135,5 +134,27 @@ describe('TTextarea', () => {
 
     expect(setState).toHaveBeenCalledWith('hellooou');
   });
+
+  it('calls the on change event even if have a change handler', () => {
+    const onChange = jest.fn();
+
+    const wrapper = mount(<TTextarea changeHandler={() => {}} onChange={onChange} />)
+
+    wrapper.first().simulate('change')
+
+    expect(onChange).toHaveBeenCalled();
+  })
+
+  it('calls the on change event even if have a state', () => {
+    const onChange = jest.fn();
+
+    const state: [string, () => void] = ["unselected", () => {}]
+    
+    const wrapper = mount(<TTextarea state={state} onChange={onChange} />)
+
+    wrapper.first().simulate('change')
+
+    expect(onChange).toHaveBeenCalled();
+  })
 })
 

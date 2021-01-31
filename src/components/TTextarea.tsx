@@ -8,17 +8,31 @@ export type TTextareaProps = DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAr
   & WithState
 
 const TTextarea = (props: TTextareaProps) => {
-  const { changeHandler, state, ...inputProps } = props
+  const { changeHandler, state, onChange: originalOnChange, ...inputProps } = props
+  
+  let onChange = originalOnChange;
   
   if (state !== undefined) {
     const [currentState, setState] = state;
     inputProps.value = currentState;
-    inputProps.onChange = (e) => setState(e.currentTarget.value);
+    onChange = (e) => {
+      setState(e.currentTarget.value)
+
+      if (typeof originalOnChange === 'function') {
+        originalOnChange(e)
+      }
+    };
   } else if (changeHandler !== undefined) {
-    inputProps.onChange = (e) => changeHandler(e.currentTarget.value);
+    onChange = (e) => {
+      changeHandler(e.currentTarget.value);
+
+      if (typeof originalOnChange === 'function') {
+        originalOnChange(e)
+      }
+    }
   }
   
-  return <textarea {...inputProps} />
+  return <textarea onChange={onChange} {...inputProps} />
 }
 
 export default withVariants<TTextareaProps>(TTextarea, 'TTextarea', defaultConfiguration)

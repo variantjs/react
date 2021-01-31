@@ -225,31 +225,23 @@ describe('TCheckbox', () => {
   it('calls the on change event even if have a change handler', () => {
     const onChange = jest.fn();
 
-    const event = {
-      currentTarget: { value: 'hellooou' }
-    };
-    
-    const wrapper = shallow(<TCheckbox changeHandler={() => {}} value="hellooou" checked={true} onChange={onChange} />)
+    const wrapper = mount(<TCheckbox changeHandler={() => {}} value="hellooou" checked={true} onChange={onChange} />)
 
-    wrapper.first().simulate('change', event)
+    wrapper.first().simulate('change')
 
-    expect(onChange).toHaveBeenCalledWith(event);
+    expect(onChange).toHaveBeenCalled();
   })
   
   it('calls the on change event even if have a state', () => {
     const onChange = jest.fn();
 
-    const event = {
-      currentTarget: { value: 'hellooou' }
-    };
-
     const state: [string, () => void] = ["unselected", () => {}]
     
-    const wrapper = shallow(<TCheckbox state={state} onChange={onChange} />)
+    const wrapper = mount(<TCheckbox state={state} onChange={onChange} />)
 
-    wrapper.first().simulate('change', event)
+    wrapper.first().simulate('change', )
 
-    expect(onChange).toHaveBeenCalledWith(event);
+    expect(onChange).toHaveBeenCalled();
   })
 })
 
