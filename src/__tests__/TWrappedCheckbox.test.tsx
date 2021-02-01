@@ -362,4 +362,47 @@ describe('TWrappedCheckbox', () => {
 
     expect(onChange).toHaveBeenCalled()
   })
+
+  it('will use the default classes if the wrapper is not checked', () => {
+    const wrapper = mount(
+      <TWrappedCheckbox
+        classes={{
+          wrapper: 'wrapper-class',
+          inputWrapper: 'input-wrapper-class',
+          label: 'label-class',
+          input: 'input-class',
+          wrapperChecked: 'wrapper-checked-class',
+          inputWrapperChecked: 'input-wrapper-checked-class',
+          labelChecked: 'label-checked-class',
+        }}
+        onChange={() => {}}
+      />
+    )
+
+    expect(wrapper.byTestId('wrapper').prop('className')).toBe('wrapper-class')
+    expect(wrapper.byTestId('label').prop('className')).toBe('label-class')
+    expect(wrapper.byTestId('inputWrapper').prop('className')).toBe('input-wrapper-class')
+  })
+
+  it('will use the "checked" classes if the wrapper is checked', () => {
+    const wrapper = mount(
+      <TWrappedCheckbox
+        classes={{
+          wrapper: 'wrapper-class',
+          inputWrapper: 'input-wrapper-class',
+          label: 'label-class',
+          input: 'input-class',
+          wrapperChecked: 'wrapper-checked-class',
+          inputWrapperChecked: 'input-wrapper-checked-class',
+          labelChecked: 'label-checked-class',
+        }}
+        checked
+        onChange={() => {}}
+      />
+    )
+
+    expect(wrapper.byTestId('wrapper').prop('className')).toBe('wrapper-checked-class')
+    expect(wrapper.byTestId('label').prop('className')).toBe('label-checked-class')
+    expect(wrapper.byTestId('inputWrapper').prop('className')).toBe('input-wrapper-checked-class')
+  })
 })
