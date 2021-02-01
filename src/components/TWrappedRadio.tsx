@@ -1,10 +1,10 @@
 import { ChangeEvent, useState } from 'react'
-import defaultConfiguration from '../theme/TWrappedCheckbox'
-import TCheckbox, { TCheckboxProps, shouldBeChecked } from './TCheckbox'
+import defaultConfiguration from '../theme/TWrappedRadio'
+import TRadio, { TRadioProps, shouldBeChecked } from './TRadio'
 import withVariantsWithinClassesList from '../hoc/WithVariantsWithinClassesList'
 import { WithClassesList } from '../types'
 
-export type TWrappedCheckboxProps = TCheckboxProps &
+export type TWrappedRadioProps = TRadioProps &
   WithClassesList & {
     label?: string
     labelTag?: keyof JSX.IntrinsicElements
@@ -22,7 +22,7 @@ export const classesListKeys = [
   'labelChecked',
 ]
 
-const TWrappedCheckbox = (props: TWrappedCheckboxProps) => {
+const TWrappedRadio = (props: TWrappedRadioProps) => {
   const {
     classesList,
     className,
@@ -34,21 +34,20 @@ const TWrappedCheckbox = (props: TWrappedCheckboxProps) => {
     tabIndex,
     state,
     value,
-    uncheckedValue,
     checked,
     ...inputProps
   } = props
 
-  const isChecked = shouldBeChecked(state, checked, value, uncheckedValue)
+  const isChecked = shouldBeChecked(state, checked, value)
 
   const [checkedState, setChecked] = useState<boolean | undefined>(isChecked)
 
   if (isChecked !== checkedState) {
-    // setChecked(isChecked)
+    setChecked(isChecked)
   }
 
-  const checkbox = (
-    <TCheckbox
+  const radio = (
+    <TRadio
       className={classesList?.input}
       classes={undefined}
       fixedClasses={undefined}
@@ -60,7 +59,6 @@ const TWrappedCheckbox = (props: TWrappedCheckboxProps) => {
       state={state}
       value={value}
       checked={isChecked}
-      uncheckedValue={uncheckedValue}
       {...(inputProps as any)}
     />
   )
@@ -87,7 +85,7 @@ const TWrappedCheckbox = (props: TWrappedCheckboxProps) => {
       htmlFor={inputProps.id}
     >
       <InputWrapperTag data-test-id='inputWrapper' className={inputWrapperClass}>
-        {checkbox}
+        {radio}
       </InputWrapperTag>
       <LabelTag data-test-id='label' className={labelClass}>
         {label !== undefined ? label : children}
@@ -96,9 +94,9 @@ const TWrappedCheckbox = (props: TWrappedCheckboxProps) => {
   )
 }
 
-export default withVariantsWithinClassesList<TWrappedCheckboxProps>(
-  TWrappedCheckbox,
-  'TWrappedCheckbox',
+export default withVariantsWithinClassesList<TWrappedRadioProps>(
+  TWrappedRadio,
+  'TWrappedRadio',
   classesListKeys,
   defaultConfiguration
 )

@@ -7,6 +7,7 @@ import { TButtonProps } from '../components/TButton'
 import { TSelectProps } from '../components/TSelect'
 import { TTextareaProps } from '../components/TTextarea'
 import { TWrappedCheckboxProps } from '../components/TWrappedCheckbox'
+import { TWrappedRadioProps } from '../components/TWrappedRadio'
 
 export type VariantJSConfiguration = {
   TInput?: WithVariantProps<TInputProps>
@@ -14,8 +15,9 @@ export type VariantJSConfiguration = {
   TSelect?: WithVariantProps<TSelectProps>
   TTextarea?: WithVariantProps<TTextareaProps>
   TCheckbox?: WithVariantProps<TCheckboxProps>
-  TWrappedCheckbox?: WithVariantProps<TWrappedCheckboxProps>
   TRadio?: WithVariantProps<TRadioProps>
+  TWrappedCheckbox?: WithVariantProps<TWrappedCheckboxProps>
+  TWrappedRadio?: WithVariantProps<TWrappedRadioProps>
 }
 
 export const Configuration = React.createContext<VariantJSConfiguration>({})

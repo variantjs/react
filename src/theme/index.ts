@@ -5,6 +5,7 @@ import TSelect from './TSelect'
 import TCheckbox from './TCheckbox'
 import TRadio from './TRadio'
 import TWrappedCheckbox from './TWrappedCheckbox'
+import TWrappedRadio from './TWrappedRadio'
 
 const theme = {
   TInput,
@@ -14,6 +15,7 @@ const theme = {
   TCheckbox,
   TRadio,
   TWrappedCheckbox,
+  TWrappedRadio,
 }
 
 export default theme

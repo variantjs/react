@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TWrappedCheckbox, { classesListKeys } from '../components/TWrappedCheckbox'
-import TWrappedCheckboxTheme from '../theme/TWrappedCheckbox'
+import TWrappedRadio, { classesListKeys } from '../components/TWrappedRadio'
+import TWrappedRadioTheme from '../theme/TWrappedRadio'
 import { CSSClassesList, pick } from '@variantjs/core'
 
 const emptyClasses: CSSClassesList = classesListKeys.reduce((obj, key) => {
@@ -10,47 +10,45 @@ const emptyClasses: CSSClassesList = classesListKeys.reduce((obj, key) => {
   return obj
 }, {} as CSSClassesList)
 
-describe('TWrappedCheckbox', () => {
-  it('renders the checkbox without errors', () => {
-    const wrapper = shallow(<TWrappedCheckbox />)
+describe('TWrappedRadio', () => {
+  it('renders the radio wrapper without errors', () => {
+    const wrapper = shallow(<TWrappedRadio />)
 
     expect(wrapper).toBeTruthy()
   })
 
   it('has a default theme', () => {
-    const wrapper = shallow(<TWrappedCheckbox />)
+    const wrapper = shallow(<TWrappedRadio />)
 
     const inputProps = wrapper.first().props()
 
-    expect(inputProps.classesList).toEqual(pick(TWrappedCheckboxTheme.classes))
+    expect(inputProps.classesList).toEqual(pick(TWrappedRadioTheme.classes))
   })
 
-  it('accepts checkbox html attributes', () => {
-    const wrapper = mount(
-      <TWrappedCheckbox checked={true} readOnly={true} classes={emptyClasses} />
-    )
+  it('accepts radio input attributes', () => {
+    const wrapper = mount(<TWrappedRadio checked={true} readOnly={true} classes={emptyClasses} />)
 
     const props = wrapper.find('input').props()
     // For now im not considering this attribute
     delete props.onChange
 
     expect(props).toEqual({
-      type: 'checkbox',
+      type: 'radio',
       tabIndex: undefined,
       checked: true,
       readOnly: true,
     })
   })
 
-  it('only has the type="checkbox" attribute by default', () => {
-    const wrapper = mount(<TWrappedCheckbox classes={emptyClasses} />)
+  it('only has the type="radio" attribute by default', () => {
+    const wrapper = mount(<TWrappedRadio classes={emptyClasses} />)
 
     const props = wrapper.find('input').props()
     // For now im not considering this attribute
     delete props.onChange
 
     expect(props).toEqual({
-      type: 'checkbox',
+      type: 'radio',
       tabIndex: undefined,
     })
   })
@@ -66,7 +64,7 @@ describe('TWrappedCheckbox', () => {
     }
 
     const wrapper = shallow(
-      <TWrappedCheckbox
+      <TWrappedRadio
         classes={{
           wrapper: 'text-black',
         }}
@@ -100,7 +98,7 @@ describe('TWrappedCheckbox', () => {
       },
     }
 
-    const wrapper = shallow(<TWrappedCheckbox {...props} />)
+    const wrapper = shallow(<TWrappedRadio {...props} />)
     const inputProps = wrapper.first().props()
 
     expect(inputProps.fixedClasses).toBeUndefined()
@@ -111,7 +109,7 @@ describe('TWrappedCheckbox', () => {
 
   it('uses the props from the selected configuration variant', () => {
     const configuration: VariantJSConfiguration = {
-      TWrappedCheckbox: {
+      TWrappedRadio: {
         classes: {
           wrapper: 'text-black',
         },
@@ -128,7 +126,7 @@ describe('TWrappedCheckbox', () => {
 
     const wrapper = mount(
       <Configuration.Provider value={configuration}>
-        <TWrappedCheckbox variant='error' />
+        <TWrappedRadio variant='error' />
       </Configuration.Provider>
     )
 
@@ -142,7 +140,7 @@ describe('TWrappedCheckbox', () => {
 
   it('uses the props from the configuration', () => {
     const configuration: VariantJSConfiguration = {
-      TWrappedCheckbox: {
+      TWrappedRadio: {
         classes: {
           wrapper: 'text-black',
         },
@@ -152,7 +150,7 @@ describe('TWrappedCheckbox', () => {
 
     const wrapper = mount(
       <Configuration.Provider value={configuration}>
-        <TWrappedCheckbox />
+        <TWrappedRadio />
       </Configuration.Provider>
     )
 
@@ -167,7 +165,7 @@ describe('TWrappedCheckbox', () => {
     const changeHandler = jest.fn()
 
     const wrapper = mount(
-      <TWrappedCheckbox changeHandler={changeHandler} value='hellooou' checked={true} />
+      <TWrappedRadio changeHandler={changeHandler} value='hellooou' checked={true} />
     )
 
     wrapper.find('input').simulate('change')
@@ -175,52 +173,40 @@ describe('TWrappedCheckbox', () => {
     expect(changeHandler).toHaveBeenCalledWith('hellooou')
   })
 
-  it('calls the input handler with the unchecked value if unchecked', () => {
+  it('calls the input handler with the undefined if unchecked', () => {
     const changeHandler = jest.fn()
 
     const wrapper = mount(
-      <TWrappedCheckbox
-        changeHandler={changeHandler}
-        value='hellooou'
-        uncheckedValue='NOUP'
-        checked={false}
-      />
+      <TWrappedRadio changeHandler={changeHandler} value='hellooou' checked={false} />
     )
 
     wrapper.find('input').simulate('change')
 
-    expect(changeHandler).toHaveBeenCalledWith('NOUP')
+    expect(changeHandler).toHaveBeenCalledWith(undefined)
   })
 
   it('handle a react state with the new value', () => {
     const setState = jest.fn()
 
-    const wrapper = mount(<TWrappedCheckbox state={['hellooou', setState]} value='hellooou' />)
+    const wrapper = mount(<TWrappedRadio state={['hellooou', setState]} value='hellooou' />)
 
     wrapper.find('input').simulate('change')
 
     expect(setState).toHaveBeenCalledWith('hellooou')
   })
 
-  it('accept and handle a react state with the unchecked value', () => {
+  it('accept and handle a react state when unchecked', () => {
     const setState = jest.fn()
 
-    const wrapper = mount(
-      <TWrappedCheckbox
-        state={['', setState]}
-        value='hellooou'
-        uncheckedValue='NOUP'
-        checked={false}
-      />
-    )
+    const wrapper = mount(<TWrappedRadio state={['', setState]} value='hellooou' checked={false} />)
 
     wrapper.find('input').simulate('change')
 
-    expect(setState).toHaveBeenCalledWith('NOUP')
+    expect(setState).toHaveBeenCalledWith(undefined)
   })
 
   it('adds the tabindex to the wrapper and remove it from the input', () => {
-    const wrapper = mount(<TWrappedCheckbox tabIndex={0} />)
+    const wrapper = mount(<TWrappedRadio tabIndex={0} />)
 
     const wrapperProps = wrapper.find('label').props()
     const inputProps = wrapper.find('input').props()
@@ -230,50 +216,50 @@ describe('TWrappedCheckbox', () => {
   })
 
   it('accepts a label prop that is used as the text of the input', () => {
-    const wrapper = mount(<TWrappedCheckbox label='Check me' />)
+    const wrapper = mount(<TWrappedRadio label='Select me' />)
 
-    expect(wrapper.byTestId('label').text()).toBe('Check me')
+    expect(wrapper.byTestId('label').text()).toBe('Select me')
   })
 
   it('uses the children content as the label', () => {
-    const wrapper = mount(<TWrappedCheckbox>Check me</TWrappedCheckbox>)
+    const wrapper = mount(<TWrappedRadio>Select me</TWrappedRadio>)
 
-    expect(wrapper.byTestId('label').text()).toBe('Check me')
+    expect(wrapper.byTestId('label').text()).toBe('Select me')
   })
 
   it('uses the id as the htmlFor of the wrapper label', () => {
-    const wrapper = mount(<TWrappedCheckbox id='check' />)
+    const wrapper = mount(<TWrappedRadio id='check' />)
 
     expect(wrapper.find('label').prop('htmlFor')).toBe('check')
   })
 
   it('accepts a custom wrapper tag', () => {
-    const wrapper = mount(<TWrappedCheckbox wrapperTag='strong' />)
+    const wrapper = mount(<TWrappedRadio wrapperTag='strong' />)
 
     expect(wrapper.byTestId('wrapper').is('strong')).toBe(true)
   })
 
   it('accepts a custom label tag', () => {
-    const wrapper = mount(<TWrappedCheckbox labelTag='strong' />)
+    const wrapper = mount(<TWrappedRadio labelTag='strong' />)
 
     expect(wrapper.byTestId('label').is('strong')).toBe(true)
   })
 
   it('accepts a input wrapper tag', () => {
-    const wrapper = mount(<TWrappedCheckbox inputWrapperTag='strong' />)
+    const wrapper = mount(<TWrappedRadio inputWrapperTag='strong' />)
 
     expect(wrapper.byTestId('inputWrapper').is('strong')).toBe(true)
   })
 
   it('set as not checked if checked false', () => {
-    const wrapper = mount(<TWrappedCheckbox checked={false} />)
+    const wrapper = mount(<TWrappedRadio checked={false} />)
 
     expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(false)
     expect(wrapper.find('input').prop('checked')).toBe(false)
   })
 
   it('set as checked if checked true', () => {
-    const wrapper = mount(<TWrappedCheckbox checked={true} />)
+    const wrapper = mount(<TWrappedRadio checked={true} />)
 
     expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(true)
     expect(wrapper.find('input').prop('checked')).toBe(true)
@@ -282,7 +268,7 @@ describe('TWrappedCheckbox', () => {
   it('set as checked if the value is the same as the state and no checked attribute', () => {
     const state: [string, () => void] = ['selected', () => {}]
 
-    const wrapper = mount(<TWrappedCheckbox value='selected' state={state} />)
+    const wrapper = mount(<TWrappedRadio value='selected' state={state} />)
 
     expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(true)
   })
@@ -290,7 +276,7 @@ describe('TWrappedCheckbox', () => {
   it('set as the checked attribute if the value is different to the state', () => {
     const state: [string, () => void] = ['selected', () => {}]
 
-    const wrapper = mount(<TWrappedCheckbox value='other' state={state} checked={true} />)
+    const wrapper = mount(<TWrappedRadio value='other' state={state} checked={true} />)
 
     expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(true)
   })
@@ -298,51 +284,29 @@ describe('TWrappedCheckbox', () => {
   it('set as the checked attribute if the value is different to the state 2', () => {
     const state: [string, () => void] = ['selected', () => {}]
 
-    const wrapper = mount(<TWrappedCheckbox value='other' state={state} checked={false} />)
+    const wrapper = mount(<TWrappedRadio value='other' state={state} checked={false} />)
 
     expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(false)
   })
 
-  it('set as undefined if the state is not the checked or the unchecked value', () => {
+  it('set as not checked if the state is different to the value', () => {
     const state: [string, () => void] = ['nopup', () => {}]
 
-    const wrapper = mount(
-      <TWrappedCheckbox value='selected' uncheckedValue='unselected' state={state} />
-    )
+    const wrapper = mount(<TWrappedRadio value='selected' state={state} />)
 
-    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBeUndefined()
+    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(false)
   })
 
   it('set as checked if the value is equal to the state even if has the checked attribute as false', () => {
     const state: [string, () => void] = ['selected', () => {}]
 
-    const wrapper = mount(<TWrappedCheckbox value='selected' state={state} checked={false} />)
+    const wrapper = mount(<TWrappedRadio value='selected' state={state} checked={false} />)
 
     expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(true)
   })
 
-  it('set as not checked if the uncheckedValue is equal to the state', () => {
-    const state: [string, () => void] = ['unselected', () => {}]
-
-    const wrapper = mount(
-      <TWrappedCheckbox value='selected' uncheckedValue='unselected' state={state} />
-    )
-
-    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(false)
-  })
-
-  it('set as not checked if the uncheckedValue is equal to the state even if the checked attribute is true', () => {
-    const state: [string, () => void] = ['unselected', () => {}]
-
-    const wrapper = mount(
-      <TWrappedCheckbox value='selected' uncheckedValue='unselected' state={state} checked={true} />
-    )
-
-    expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(false)
-  })
-
   it('updates the checked state', () => {
-    const wrapper = mount(<TWrappedCheckbox checked={true} />)
+    const wrapper = mount(<TWrappedRadio checked={true} />)
 
     expect(wrapper.byTestId('wrapper').prop('data-checked')).toBe(true)
 
@@ -354,7 +318,7 @@ describe('TWrappedCheckbox', () => {
   it('calls the on change event even if have a change handler', () => {
     const onChange = jest.fn()
 
-    const wrapper = mount(<TWrappedCheckbox changeHandler={() => {}} onChange={onChange} />)
+    const wrapper = mount(<TWrappedRadio changeHandler={() => {}} onChange={onChange} />)
 
     wrapper.find('input').simulate('change')
 
@@ -366,7 +330,7 @@ describe('TWrappedCheckbox', () => {
 
     const state: [string, () => void] = ['unselected', () => {}]
 
-    const wrapper = mount(<TWrappedCheckbox state={state} onChange={onChange} />)
+    const wrapper = mount(<TWrappedRadio state={state} onChange={onChange} />)
 
     wrapper.find('input').simulate('change')
 
@@ -375,7 +339,7 @@ describe('TWrappedCheckbox', () => {
 
   it('will use the default classes if the wrapper is not checked', () => {
     const wrapper = mount(
-      <TWrappedCheckbox
+      <TWrappedRadio
         classes={{
           wrapper: 'wrapper-class',
           inputWrapper: 'input-wrapper-class',
@@ -396,7 +360,7 @@ describe('TWrappedCheckbox', () => {
 
   it('will use the "checked" classes if the wrapper is checked', () => {
     const wrapper = mount(
-      <TWrappedCheckbox
+      <TWrappedRadio
         classes={{
           wrapper: 'wrapper-class',
           inputWrapper: 'input-wrapper-class',

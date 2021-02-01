@@ -6,7 +6,7 @@ import {
 } from '@variantjs/core'
 import { Configuration } from '../context/Configuration'
 
-type ComponentName = 'TWrappedCheckbox'
+type ComponentName = 'TWrappedCheckbox' | 'TWrappedRadio'
 
 const withVariantsWithinClassesList = <P extends ObjectWithClassesList>(
   WrappedComponent: React.ComponentType<P>,

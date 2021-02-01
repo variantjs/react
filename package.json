@@ -73,7 +73,10 @@
     "collectCoverageFrom": [
       "!<rootDir>/node_modules/",
       "!<rootDir>/src/App.tsx",
-      "!<rootDir>/src/index.tsx"
+      "!<rootDir>/src/index.tsx",
+      "!<rootDir>/src/reportWebVitals.ts",
+      "!<rootDir>/react-app-env.d.ts",
+      "!<rootDir>/src/types/*"
     ]
   },
   "browserslist": {

@@ -180,12 +180,12 @@ describe('TRadio', () => {
     expect(wrapper.find('input').prop('checked')).toBe(false)
   })
 
-  it('set as undefined if the state is not the checked value', () => {
+  it('set as false if the state is not the checked value', () => {
     const state: [string, () => void] = ['nopup', () => {}]
 
     const wrapper = mount(<TRadio value='selected' state={state} />)
 
-    expect(wrapper.find('input').prop('checked')).toBeUndefined()
+    expect(wrapper.find('input').prop('checked')).toBe(false)
   })
 
   it('set as checked if the value is equal to the state even if has the checked attribute as false', () => {
