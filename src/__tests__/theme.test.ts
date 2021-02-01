@@ -17,5 +17,4 @@ it('export the complete theme', () => {
     TRadio: TRadio,
     TWrappedCheckbox: TWrappedCheckbox,
   })
-});
-
+})

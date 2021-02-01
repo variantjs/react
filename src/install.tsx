@@ -7,11 +7,13 @@ export { default as TSelect } from './components/TSelect'
 export { default as TTextarea } from './components/TTextarea'
 export { default as TWrappedCheckbox } from './components/TWrappedCheckbox'
 
-export const VariantJs = (props: { children: React.ReactNode, configuration?: VariantJSConfiguration }) => {
+export const VariantJs = (props: {
+  children: React.ReactNode
+  configuration?: VariantJSConfiguration
+}): JSX.Element => {
   return (
     <Configuration.Provider {...props} value={props.configuration || {}}>
       {props.children}
     </Configuration.Provider>
-  );
+  )
 }
-

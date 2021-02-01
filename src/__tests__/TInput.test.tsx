@@ -1,56 +1,61 @@
-import React, { useState } from 'react';
-import { shallow, mount } from 'enzyme';
+import React from 'react'
+import { shallow, mount } from 'enzyme'
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TInput from '../components/TInput';
+import TInput from '../components/TInput'
 import TInputTheme from '../theme/TInput'
-
-// jest.mock('react', () => ({
-//   ...jest.requireActual('react'),
-//   useState: jest.fn(),
-// }));
 
 describe('TInput', () => {
   it('renders the input without errors', () => {
     const wrapper = shallow(<TInput />)
 
     expect(wrapper).toBeTruthy()
-  });
+  })
 
   it('has a default theme', () => {
     const wrapper = shallow(<TInput />)
 
-    const inputProps = wrapper.first().props();
+    const inputProps = wrapper.first().props()
 
     expect(inputProps.className).toBe(TInputTheme.classes)
-  });
+  })
 
   it('accepts text input html attributes', () => {
-    const wrapper = shallow(<TInput type="number" max="10" readOnly={true} placeholder="Hello world" classes={undefined} />)
+    const wrapper = shallow(
+      <TInput
+        type='number'
+        max='10'
+        readOnly={true}
+        placeholder='Hello world'
+        classes={undefined}
+      />
+    )
 
-    expect(wrapper.html()).toBe('<input type="number" max="10" readonly="" placeholder="Hello world"/>')
-  });
-  
- it('doesnt have any attributes by default', () => {
+    expect(wrapper.html()).toBe(
+      '<input type="number" max="10" readonly="" placeholder="Hello world"/>'
+    )
+  })
+
+  it('doesnt have any attributes by default', () => {
     const wrapper = shallow(<TInput classes={undefined} />)
 
     expect(wrapper.html()).toBe('<input/>')
-  });
- 
+  })
+
   it('select the props from the selected variant', () => {
     const variants = {
       error: {
         classes: 'text-red-500',
-        type: 'number'
-      }
+        type: 'number',
+      },
     }
 
-    const wrapper = shallow(<TInput classes="text-black" variant="error" variants={variants} />)
+    const wrapper = shallow(<TInput classes='text-black' variant='error' variants={variants} />)
 
-    const inputProps = wrapper.first().props();
+    const inputProps = wrapper.first().props()
 
     expect(inputProps.className).toBe('text-red-500')
     expect(inputProps.type).toBe('number')
-  });
+  })
 
   it('doesnt adds the props related with the variants', () => {
     const props = {
@@ -61,19 +66,19 @@ describe('TInput', () => {
         alt: {
           classes: 'text-blue-500',
           type: 'text',
-        }
-      }
+        },
+      },
     }
 
     const wrapper = shallow(<TInput {...props} />)
-    const inputProps = wrapper.first().props();
+    const inputProps = wrapper.first().props()
 
     expect(inputProps.fixedClasses).toBeUndefined()
     expect(inputProps.classes).toBeUndefined()
     expect(inputProps.variant).toBeUndefined()
     expect(inputProps.variatns).toBeUndefined()
-  });
-  
+  })
+
   it('uses the props from the selected configuration variant', () => {
     const configuration: VariantJSConfiguration = {
       TInput: {
@@ -81,31 +86,30 @@ describe('TInput', () => {
         variants: {
           error: {
             type: 'number',
-            classes: 'text-red-500'
-          } 
-        }
-      }
+            classes: 'text-red-500',
+          },
+        },
+      },
     }
 
     const wrapper = mount(
       <Configuration.Provider value={configuration}>
-        <TInput variant="error" />
+        <TInput variant='error' />
       </Configuration.Provider>
     )
 
-    const inputProps = wrapper.find('input').props();
+    const inputProps = wrapper.find('input').props()
 
     expect(inputProps.className).toBe('text-red-500')
     expect(inputProps.type).toBe('number')
-  });
+  })
 
   it('uses the props from the configuration', () => {
     const configuration: VariantJSConfiguration = {
       TInput: {
         classes: 'text-black',
-        type: 'number'
-        
-      }
+        type: 'number',
+      },
     }
 
     const wrapper = mount(
@@ -114,52 +118,51 @@ describe('TInput', () => {
       </Configuration.Provider>
     )
 
-    const inputProps = wrapper.find('input').props();
+    const inputProps = wrapper.find('input').props()
 
     expect(inputProps.className).toBe('text-black')
     expect(inputProps.type).toBe('number')
-  });
+  })
 
   it('calls the input handler if set', () => {
-    const changeHandler = jest.fn();
-    
-    const wrapper = mount(<TInput changeHandler={changeHandler} value="hellooou" />)
+    const changeHandler = jest.fn()
+
+    const wrapper = mount(<TInput changeHandler={changeHandler} value='hellooou' />)
 
     wrapper.first().simulate('change')
 
-    expect(changeHandler).toHaveBeenCalledWith('hellooou');
-  });
+    expect(changeHandler).toHaveBeenCalledWith('hellooou')
+  })
 
   it('accept and handle a react state', () => {
-    const setState = jest.fn();
+    const setState = jest.fn()
 
     const wrapper = mount(<TInput state={['hellooou', setState]} />)
 
     wrapper.first().simulate('change')
 
-    expect(setState).toHaveBeenCalledWith('hellooou');
-  });
+    expect(setState).toHaveBeenCalledWith('hellooou')
+  })
 
   it('calls the on change event even if have a change handler', () => {
-    const onChange = jest.fn();
+    const onChange = jest.fn()
 
     const wrapper = mount(<TInput changeHandler={() => {}} onChange={onChange} />)
 
     wrapper.first().simulate('change')
 
-    expect(onChange).toHaveBeenCalled();
+    expect(onChange).toHaveBeenCalled()
   })
 
   it('calls the on change event even if have a state', () => {
-    const onChange = jest.fn();
+    const onChange = jest.fn()
 
-    const state: [string, () => void] = ["unselected", () => {}]
-    
+    const state: [string, () => void] = ['unselected', () => {}]
+
     const wrapper = mount(<TInput state={state} onChange={onChange} />)
 
     wrapper.first().simulate('change')
 
-    expect(onChange).toHaveBeenCalled();
+    expect(onChange).toHaveBeenCalled()
   })
 })
-

@@ -1,45 +1,46 @@
-import peerDepsExternal from "rollup-plugin-peer-deps-external";
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import typescript from "rollup-plugin-typescript2";
-import del from 'rollup-plugin-delete';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external'
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import typescript from 'rollup-plugin-typescript2'
+import del from 'rollup-plugin-delete'
 
-const { removeDataTestIdTransformer } = require('typescript-transformer-jsx-remove-data-test-id');
+const { removeDataTestIdTransformer } = require('typescript-transformer-jsx-remove-data-test-id')
 
-const packageJson = require("./package.json");
+const packageJson = require('./package.json')
 
 const removeDataTestId = () => ({
-  before: [ removeDataTestIdTransformer() ],
+  before: [removeDataTestIdTransformer()],
 })
 
-
-const config =  [{
-  input: "src/install.tsx",
-  output: [
-    {
-      file: packageJson.main,
-      format: "cjs",
-      sourcemap: true
-    },
-    {
-      file: packageJson.module,
-      format: "esm",
-      sourcemap: true
-    }
-  ],
-  plugins: [
-    del({ targets: 'dist/*' }),
-    peerDepsExternal(),
-    resolve(),
-    commonjs(),
-    typescript({
-      declaration: true,
-      declarationDir: 'dist',
-      rootDir: 'src',
-      transformers: [removeDataTestId]
-    }),
-  ]
-}];
+const config = [
+  {
+    input: 'src/install.tsx',
+    output: [
+      {
+        file: packageJson.main,
+        format: 'cjs',
+        sourcemap: true,
+      },
+      {
+        file: packageJson.module,
+        format: 'esm',
+        sourcemap: true,
+      },
+    ],
+    plugins: [
+      del({ targets: 'dist/*' }),
+      peerDepsExternal(),
+      resolve(),
+      commonjs(),
+      typescript({
+        declaration: true,
+        declarationDir: 'dist',
+        rootDir: 'src',
+        transformers: [removeDataTestId],
+      }),
+    ],
+  },
+]
 
 const components = {
   't-input': 'TInput',
@@ -62,42 +63,44 @@ const components = {
   // 't-datepicker': 'TDatepicker',
   // 't-toggle': 'TToggle',
   // 't-dialog': 'TDialog',
-};
+}
 
-const componentsConfig = Object.keys(components).map((component) => {
-  const componentName = components[component];
-  return {
-    input: `src/${component}.ts`,
-    output: [
-      {
-        format: "cjs",
-        sourcemap: true,
-        entryFileNames: `${component}.js`,
-        name: componentName,
-        exports: 'named', 
-        dir: 'dist',
-      },
-      {
-        format: "esm",
-        sourcemap: true,
-        entryFileNames: `${component}.esm.js`,
-        name: componentName,
-        exports: 'named', 
-        dir: 'dist',
-      }
-    ],
-    
-    plugins: [
-      peerDepsExternal(),
-      resolve(),
-      commonjs(),
-      typescript({
-        declaration: true,
-        declarationDir: 'dist',
-        rootDir: 'src',
-      }),
-    ]
-  }
-}).flat();
+const componentsConfig = Object.keys(components)
+  .map((component) => {
+    const componentName = components[component]
+    return {
+      input: `src/${component}.ts`,
+      output: [
+        {
+          format: 'cjs',
+          sourcemap: true,
+          entryFileNames: `${component}.js`,
+          name: componentName,
+          exports: 'named',
+          dir: 'dist',
+        },
+        {
+          format: 'esm',
+          sourcemap: true,
+          entryFileNames: `${component}.esm.js`,
+          name: componentName,
+          exports: 'named',
+          dir: 'dist',
+        },
+      ],
+
+      plugins: [
+        peerDepsExternal(),
+        resolve(),
+        commonjs(),
+        typescript({
+          declaration: true,
+          declarationDir: 'dist',
+          rootDir: 'src',
+        }),
+      ],
+    }
+  })
+  .flat()
 
 export default config.concat(componentsConfig)

@@ -1,23 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AllHTMLAttributes as ReactHTMLAttributes,
-  SVGAttributes as ReactSVGAttributes
-} from 'react';
+  SVGAttributes as ReactSVGAttributes,
+} from 'react'
 
 // jest-dom adds custom jest matchers for asserting on DOM nodes.
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom'
 
-import Enzyme, { ReactWrapper, ShallowWrapper } from 'enzyme';
+import Enzyme, { ReactWrapper, ShallowWrapper } from 'enzyme'
 
-import EnzymeAdapter from '@wojtekmaj/enzyme-adapter-react-17';
+import EnzymeAdapter from '@wojtekmaj/enzyme-adapter-react-17'
 
-export type HTMLAttributes = ReactHTMLAttributes<{}> & ReactSVGAttributes<{}>;
+export type HTMLAttributes = ReactHTMLAttributes<Record<string, unknown>> &
+  ReactSVGAttributes<Record<string, unknown>>
 
-Enzyme.configure({ adapter: new EnzymeAdapter()})
+Enzyme.configure({ adapter: new EnzymeAdapter() })
 
-declare module "enzyme" {
+declare module 'enzyme' {
   interface ReactWrapper {
     byTestId: (id: string) => ReactWrapper<HTMLAttributes, any>
   }
@@ -31,6 +33,6 @@ ReactWrapper.prototype.byTestId = function (id: string) {
   return this.find(`[data-test-id="${id}"]`)
 }
 
-ShallowWrapper.prototype.byTestId =  function (id: string) {
+ShallowWrapper.prototype.byTestId = function (id: string) {
   return this.find(`[data-test-id="${id}"]`)
 }

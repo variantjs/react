@@ -1,4 +1,4 @@
-import { InputOptions} from '@variantjs/core'
+import { InputOptions } from '@variantjs/core'
 
 export type WithOptions = {
   options?: InputOptions

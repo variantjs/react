@@ -1,4 +1,4 @@
-import { CSSClassesList} from '@variantjs/core'
+import { CSSClassesList } from '@variantjs/core'
 
 export type WithClassesList = {
   classesList?: CSSClassesList

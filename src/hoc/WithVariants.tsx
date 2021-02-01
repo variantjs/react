@@ -1,27 +1,27 @@
-import React from 'react';
+import React from 'react'
 import { ObjectWithClassName, parseVariant, WithVariantProps } from '@variantjs/core'
 import { Configuration } from '../context/Configuration'
 
-type ComponentName = 'TInput' | 'TButton' | 'TSelect' | 'TTextarea' | 'TCheckbox' | 'TRadio';
+type ComponentName = 'TInput' | 'TButton' | 'TSelect' | 'TTextarea' | 'TCheckbox' | 'TRadio'
 
 const withVariants = <P extends ObjectWithClassName>(
   WrappedComponent: React.ComponentType<P>,
-  componentName: ComponentName, 
+  componentName: ComponentName,
   defaultConfiguration?: WithVariantProps<P>
-) => {
-  return class extends React.Component<WithVariantProps<P>> {
-    static contextType = Configuration;
-    
-    context!: React.ContextType<typeof Configuration>;
-    
+): typeof React.Component => {
+  return class WithVariant extends React.Component<WithVariantProps<P>> {
+    static contextType = Configuration
+
+    context!: React.ContextType<typeof Configuration>
+
     render() {
-      const globalConfiguration = this.context[componentName] as WithVariantProps<P>;
+      const globalConfiguration = this.context[componentName] as WithVariantProps<P>
 
       const props = parseVariant(this.props, globalConfiguration, defaultConfiguration)
 
-      return <WrappedComponent { ...props } />
+      return <WrappedComponent {...props} />
     }
   }
 }
 
-export default withVariants;
+export default withVariants

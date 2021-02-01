@@ -1,12 +1,12 @@
 import React from 'react'
 import { WithVariantProps } from '@variantjs/core'
-import { TInputProps } from '../components/TInput';
-import { TCheckboxProps } from '../components/TCheckbox';
-import { TRadioProps } from '../components/TRadio';
-import { TButtonProps } from '../components/TButton';
-import { TSelectProps } from '../components/TSelect';
-import { TTextareaProps } from '../components/TTextarea';
-import { TWrappedCheckboxProps } from '../components/TWrappedCheckbox';
+import { TInputProps } from '../components/TInput'
+import { TCheckboxProps } from '../components/TCheckbox'
+import { TRadioProps } from '../components/TRadio'
+import { TButtonProps } from '../components/TButton'
+import { TSelectProps } from '../components/TSelect'
+import { TTextareaProps } from '../components/TTextarea'
+import { TWrappedCheckboxProps } from '../components/TWrappedCheckbox'
 
 export type VariantJSConfiguration = {
   TInput?: WithVariantProps<TInputProps>
@@ -18,4 +18,4 @@ export type VariantJSConfiguration = {
   TRadio?: WithVariantProps<TRadioProps>
 }
 
-export const Configuration = React.createContext<VariantJSConfiguration>({});
+export const Configuration = React.createContext<VariantJSConfiguration>({})

@@ -16,4 +16,4 @@ const theme = {
   TWrappedCheckbox,
 }
 
-export default theme;
+export default theme

@@ -1,5 +1,5 @@
 import { VariantJs } from '../install'
-import { VariantJSConfiguration } from '../context/Configuration';
+import { VariantJSConfiguration } from '../context/Configuration'
 import TInput from '../components/TInput'
 import TInputTheme from '../theme/TInput'
 import { mount } from 'enzyme'
@@ -9,21 +9,25 @@ describe('VariantJs installer', () => {
     const configuration: VariantJSConfiguration = {
       TInput: {
         classes: 'text-red-600',
-        fixedClasses: 'p-3'
-      }
+        fixedClasses: 'p-3',
+      },
     }
 
-    const variantJsNode =  mount(<VariantJs configuration={configuration}>
+    const variantJsNode = mount(
+      <VariantJs configuration={configuration}>
         <TInput />
-    </VariantJs>)
+      </VariantJs>
+    )
 
     expect(variantJsNode.html()).toBe('<input class="text-red-600 p-3">')
   })
 
   it('handles an empty configuration', () => {
-    const variantJsNode =  mount(<VariantJs>
+    const variantJsNode = mount(
+      <VariantJs>
         <TInput />
-    </VariantJs>)
+      </VariantJs>
+    )
 
     expect(variantJsNode.html()).toBe(`<input class="${TInputTheme.classes}">`)
   })
