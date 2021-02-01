@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
-import TButton from '../components/TButton'
+import { TButton } from '../components/TButton'
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TButtonTheme from '../theme/TButton'
+import { TButton as TButtonTheme } from '../theme/TButton'
 
 describe('TButton', () => {
   it('renders the input without errors', () => {

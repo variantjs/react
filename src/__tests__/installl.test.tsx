@@ -1,6 +1,6 @@
 import { VariantJs } from '../install'
 import { VariantJSConfiguration } from '../context/Configuration'
-import TInput from '../components/TInput'
+import { TInput } from '../components/TInput'
 import TInputTheme from '../theme/TInput'
 import { mount } from 'enzyme'
 

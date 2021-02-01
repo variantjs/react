@@ -1,6 +1,6 @@
-import TRadio from './TRadio'
+import { TRadio } from './TRadio'
 
-const TWrappedRadio = {
+export const TWrappedRadio = {
   classes: {
     wrapper: 'flex items-center space-x-2',
     inputWrapper: 'inline-flex',
@@ -8,5 +8,3 @@ const TWrappedRadio = {
     input: TRadio.classes,
   },
 }
-
-export default TWrappedRadio

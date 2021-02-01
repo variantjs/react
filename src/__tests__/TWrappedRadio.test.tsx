@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TWrappedRadio, { classesListKeys } from '../components/TWrappedRadio'
-import TWrappedRadioTheme from '../theme/TWrappedRadio'
+import { TWrappedRadio, classesListKeys } from '../components/TWrappedRadio'
+import { TWrappedRadio as TWrappedRadioTheme } from '../theme/TWrappedRadio'
 import { CSSClassesList, pick } from '@variantjs/core'
 
 const emptyClasses: CSSClassesList = classesListKeys.reduce((obj, key) => {

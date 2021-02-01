@@ -4,7 +4,7 @@ import { Configuration } from '../context/Configuration'
 
 type ComponentName = 'TInput' | 'TButton' | 'TSelect' | 'TTextarea' | 'TCheckbox' | 'TRadio'
 
-const withVariants = <P extends ObjectWithClassName>(
+export const withVariants = <P extends ObjectWithClassName>(
   WrappedComponent: React.ComponentType<P>,
   componentName: ComponentName,
   defaultConfiguration?: WithVariantProps<P>
@@ -23,5 +23,3 @@ const withVariants = <P extends ObjectWithClassName>(
     }
   }
 }
-
-export default withVariants

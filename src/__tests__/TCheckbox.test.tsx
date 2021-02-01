@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TCheckbox from '../components/TCheckbox'
-import TCheckboxTheme from '../theme/TCheckbox'
+import { TCheckbox } from '../components/TCheckbox'
+import { TCheckbox as TCheckboxTheme } from '../theme/TCheckbox'
 
 describe('TCheckbox', () => {
   it('renders the checkbox without errors', () => {

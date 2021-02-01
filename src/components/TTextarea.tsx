@@ -1,6 +1,6 @@
 import { ChangeEvent, DetailedHTMLProps, TextareaHTMLAttributes } from 'react'
-import withVariants from '../hoc/WithVariants'
-import defaultConfiguration from '../theme/TTextarea'
+import { withVariants } from '../hoc/WithVariants'
+import { TTextarea as defaultConfiguration } from '../theme/TTextarea'
 import {
   handleStateAndChangeHandler,
   WithStateAndChangeHandler,
@@ -12,13 +12,15 @@ export type TTextareaProps = DetailedHTMLProps<
 > &
   WithStateAndChangeHandler
 
-const TTextarea = (props: TTextareaProps) => {
-  const inputProps = handleStateAndChangeHandler<TTextareaProps, ChangeEvent<HTMLTextAreaElement>>(
-    props,
-    (e: ChangeEvent<HTMLTextAreaElement>) => e.currentTarget.value
-  )
+export const TTextarea = withVariants<TTextareaProps>(
+  (props: TTextareaProps) => {
+    const inputProps = handleStateAndChangeHandler<
+      TTextareaProps,
+      ChangeEvent<HTMLTextAreaElement>
+    >(props, (e: ChangeEvent<HTMLTextAreaElement>) => e.currentTarget.value)
 
-  return <textarea {...inputProps} />
-}
-
-export default withVariants<TTextareaProps>(TTextarea, 'TTextarea', defaultConfiguration)
+    return <textarea {...inputProps} />
+  },
+  'TTextarea',
+  defaultConfiguration
+)

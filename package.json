@@ -1,12 +1,11 @@
 {
   "name": "@variantjs/react",
   "version": "0.0.1",
-  "main": "dist/install.js",
-  "module": "dist/install.esm.js",
+  "main": "dist/src/index.js",
   "files": [
     "dist"
   ],
-  "typings": "./dist/install.d.ts",
+  "typings": "dist/src/index.d.ts",
   "peerDependencies": {
     "@variantjs/core": "^0.0.5",
     "react": "^17.0.1",

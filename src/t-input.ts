@@ -1,1 +1,1 @@
-export { default } from './components/TInput'
+export * from './components/TInput'

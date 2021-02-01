@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TInput from '../components/TInput'
-import TInputTheme from '../theme/TInput'
+import { TInput } from '../components/TInput'
+import { TInput as TInputTheme } from '../theme/TInput'
 
 describe('TInput', () => {
   it('renders the input without errors', () => {

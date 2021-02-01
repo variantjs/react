@@ -1,12 +1,14 @@
 import { DetailedHTMLProps, ButtonHTMLAttributes } from 'react'
-import withVariants from '../hoc/WithVariants'
-import defaultConfiguration from '../theme/TButton'
+import { withVariants } from '../hoc/WithVariants'
+import { TButton as defaultConfiguration } from '../theme/TButton'
 
 export type TButtonProps = DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 >
 
-const TButton = (props: TButtonProps) => <button {...props} />
-
-export default withVariants<TButtonProps>(TButton, 'TButton', defaultConfiguration)
+export const TButton = withVariants<TButtonProps>(
+  (props: TButtonProps) => <button {...props} />,
+  'TButton',
+  defaultConfiguration
+)

@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TRadio from '../components/TRadio'
-import TRadioTheme from '../theme/TRadio'
+import { TRadio } from '../components/TRadio'
+import { TRadio as TRadioTheme } from '../theme/TRadio'
 
 describe('TRadio', () => {
   it('renders the checkbox without errors', () => {

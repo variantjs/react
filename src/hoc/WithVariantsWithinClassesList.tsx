@@ -8,7 +8,7 @@ import { Configuration } from '../context/Configuration'
 
 type ComponentName = 'TWrappedCheckbox' | 'TWrappedRadio'
 
-const withVariantsWithinClassesList = <P extends ObjectWithClassesList>(
+export const withVariantsWithinClassesList = <P extends ObjectWithClassesList>(
   WrappedComponent: React.ComponentType<P>,
   componentName: ComponentName,
   classesListKeys: Array<string>,
@@ -35,5 +35,3 @@ const withVariantsWithinClassesList = <P extends ObjectWithClassesList>(
     }
   }
 }
-
-export default withVariantsWithinClassesList

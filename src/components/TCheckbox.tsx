@@ -1,6 +1,6 @@
 import { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'react'
-import withVariants from '../hoc/WithVariants'
-import defaultConfiguration from '../theme/TCheckbox'
+import { withVariants } from '../hoc/WithVariants'
+import { TCheckbox as defaultConfiguration } from '../theme/TCheckbox'
 import {
   handleStateAndChangeHandler,
   WithStateAndChangeHandler,
@@ -16,7 +16,7 @@ export type TCheckboxProps = DetailedHTMLProps<InputWithouthType, HTMLInputEleme
     uncheckedValue?: string | number | readonly string[] | undefined
   }
 
-export const shouldBeChecked = (
+export const checkboxShouldBeChecked = (
   state?: [any, (value: any) => void],
   inputChecked?: boolean,
   value?: string | number | readonly string[] | undefined,
@@ -35,22 +35,24 @@ export const shouldBeChecked = (
   return inputChecked
 }
 
-const TCheckbox = (props: TCheckboxProps) => {
-  const { checked, uncheckedValue, ...inputProps } = handleStateAndChangeHandler<
-    TCheckboxProps,
-    ChangeEvent<HTMLInputElement>
-  >(
-    props,
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const { value, checked } = e.currentTarget
-      return checked ? value : props.uncheckedValue
-    },
-    false
-  )
+export const TCheckbox = withVariants<TCheckboxProps>(
+  (props: TCheckboxProps) => {
+    const { checked, uncheckedValue, ...inputProps } = handleStateAndChangeHandler<
+      TCheckboxProps,
+      ChangeEvent<HTMLInputElement>
+    >(
+      props,
+      (e: ChangeEvent<HTMLInputElement>) => {
+        const { value, checked } = e.currentTarget
+        return checked ? value : props.uncheckedValue
+      },
+      false
+    )
 
-  const isChecked = shouldBeChecked(props.state, checked, props.value, uncheckedValue)
+    const isChecked = checkboxShouldBeChecked(props.state, checked, props.value, uncheckedValue)
 
-  return <input checked={isChecked} type='checkbox' {...inputProps} />
-}
-
-export default withVariants<TCheckboxProps>(TCheckbox, 'TCheckbox', defaultConfiguration)
+    return <input checked={isChecked} type='checkbox' {...inputProps} />
+  },
+  'TCheckbox',
+  defaultConfiguration
+)

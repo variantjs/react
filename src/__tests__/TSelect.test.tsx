@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TSelect from '../components/TSelect'
-import TSelectTheme from '../theme/TSelect'
+import { TSelect } from '../components/TSelect'
+import { TSelect as TSelectTheme } from '../theme/TSelect'
 
 describe('TSelect', () => {
   it('renders the select without errors', () => {

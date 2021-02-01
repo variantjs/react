@@ -1,6 +1,6 @@
 import { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'react'
-import withVariants from '../hoc/WithVariants'
-import defaultConfiguration from '../theme/TRadio'
+import { withVariants } from '../hoc/WithVariants'
+import { TRadio as defaultConfiguration } from '../theme/TRadio'
 import {
   handleStateAndChangeHandler,
   WithStateAndChangeHandler,
@@ -14,7 +14,7 @@ type InputWithouthType = Pick<
 export type TRadioProps = DetailedHTMLProps<InputWithouthType, HTMLInputElement> &
   WithStateAndChangeHandler
 
-export const shouldBeChecked = (
+export const radioShouldBeChecked = (
   state?: [any, (value: any) => void],
   inputChecked?: boolean,
   value?: string | number | readonly string[] | undefined
@@ -28,22 +28,24 @@ export const shouldBeChecked = (
   return inputChecked
 }
 
-const TRadio = (props: TRadioProps) => {
-  const { checked, ...inputProps } = handleStateAndChangeHandler<
-    TRadioProps,
-    ChangeEvent<HTMLInputElement>
-  >(
-    props,
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const { value, checked } = e.currentTarget
-      return checked ? value : undefined
-    },
-    false
-  )
+export const TRadio = withVariants<TRadioProps>(
+  (props: TRadioProps) => {
+    const { checked, ...inputProps } = handleStateAndChangeHandler<
+      TRadioProps,
+      ChangeEvent<HTMLInputElement>
+    >(
+      props,
+      (e: ChangeEvent<HTMLInputElement>) => {
+        const { value, checked } = e.currentTarget
+        return checked ? value : undefined
+      },
+      false
+    )
 
-  const isChecked = shouldBeChecked(props.state, checked, props.value)
+    const isChecked = radioShouldBeChecked(props.state, checked, props.value)
 
-  return <input checked={isChecked} type='radio' {...inputProps} />
-}
-
-export default withVariants<TRadioProps>(TRadio, 'TRadio', defaultConfiguration)
+    return <input checked={isChecked} type='radio' {...inputProps} />
+  },
+  'TRadio',
+  defaultConfiguration
+)

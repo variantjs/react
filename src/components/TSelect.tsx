@@ -1,7 +1,7 @@
 import { DetailedHTMLProps, SelectHTMLAttributes, ChangeEvent } from 'react'
 import { normalizeOptions } from '@variantjs/core'
-import withVariants from '../hoc/WithVariants'
-import defaultConfiguration from '../theme/TSelect'
+import { withVariants } from '../hoc/WithVariants'
+import { TSelect as defaultConfiguration } from '../theme/TSelect'
 import {
   handleStateAndChangeHandler,
   WithStateAndChangeHandler,
@@ -17,55 +17,57 @@ export type TSelectProps = DetailedHTMLProps<
   WithStateAndChangeHandler &
   WithOptions
 
-const TSelect = (props: TSelectProps) => {
-  const { options, ...inputProps } = handleStateAndChangeHandler<
-    TSelectProps,
-    ChangeEvent<HTMLSelectElement>
-  >(props, (e: ChangeEvent<HTMLSelectElement>) => {
-    const select = e.currentTarget
-    if (select.multiple) {
-      return Array.from(select.selectedOptions).map((o) => o.value)
-    } else {
-      return select.value
-    }
-  })
+export const TSelect = withVariants<TSelectProps>(
+  (props: TSelectProps) => {
+    const { options, ...inputProps } = handleStateAndChangeHandler<
+      TSelectProps,
+      ChangeEvent<HTMLSelectElement>
+    >(props, (e: ChangeEvent<HTMLSelectElement>) => {
+      const select = e.currentTarget
+      if (select.multiple) {
+        return Array.from(select.selectedOptions).map((o) => o.value)
+      } else {
+        return select.value
+      }
+    })
 
-  const normalizedOptions = options !== undefined ? normalizeOptions(options) : undefined
+    const normalizedOptions = options !== undefined ? normalizeOptions(options) : undefined
 
-  return (
-    <select {...inputProps}>
-      {normalizedOptions?.map((option, index) => {
-        if (option.children && option.children.length) {
+    return (
+      <select {...inputProps}>
+        {normalizedOptions?.map((option, index) => {
+          if (option.children && option.children.length) {
+            return (
+              <optgroup
+                key={`${option.value}-${index}`}
+                label={option.text !== undefined ? String(option.text) : undefined}
+              >
+                {option.children.map((childrenOption, index2) => {
+                  return (
+                    <option
+                      key={`${childrenOption.value}-${index}-${index2}`}
+                      value={childrenOption.value === null ? undefined : childrenOption.value}
+                    >
+                      {childrenOption.text}
+                    </option>
+                  )
+                })}
+              </optgroup>
+            )
+          }
+
           return (
-            <optgroup
+            <option
               key={`${option.value}-${index}`}
-              label={option.text !== undefined ? String(option.text) : undefined}
+              value={option.value === null ? undefined : option.value}
             >
-              {option.children.map((childrenOption, index2) => {
-                return (
-                  <option
-                    key={`${childrenOption.value}-${index}-${index2}`}
-                    value={childrenOption.value === null ? undefined : childrenOption.value}
-                  >
-                    {childrenOption.text}
-                  </option>
-                )
-              })}
-            </optgroup>
+              {option.text}
+            </option>
           )
-        }
-
-        return (
-          <option
-            key={`${option.value}-${index}`}
-            value={option.value === null ? undefined : option.value}
-          >
-            {option.text}
-          </option>
-        )
-      })}
-    </select>
-  )
-}
-
-export default withVariants<TSelectProps>(TSelect, 'TSelect', defaultConfiguration)
+        })}
+      </select>
+    )
+  },
+  'TSelect',
+  defaultConfiguration
+)

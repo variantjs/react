@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TTextarea from '../components/TTextarea'
-import TTextareaTheme from '../theme/TTextarea'
+import { TTextarea } from '../components/TTextarea'
+import { TTextarea as TTextareaTheme } from '../theme/TTextarea'
 
 describe('TTextarea', () => {
   it('renders the textarea without errors', () => {

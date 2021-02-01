@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import TWrappedCheckbox, { classesListKeys } from '../components/TWrappedCheckbox'
-import TWrappedCheckboxTheme from '../theme/TWrappedCheckbox'
+import { TWrappedCheckbox, classesListKeys } from '../components/TWrappedCheckbox'
+import { TWrappedCheckbox as TWrappedCheckboxTheme } from '../theme/TWrappedCheckbox'
 import { CSSClassesList, pick } from '@variantjs/core'
 
 const emptyClasses: CSSClassesList = classesListKeys.reduce((obj, key) => {
