@@ -21,8 +21,8 @@ export const shouldBeChecked = (
 ): boolean | undefined => {
   const currentState = state ? state[0] : undefined
 
-  if (currentState !== undefined) {
-    return currentState === value
+  if (currentState !== undefined && currentState === value) {
+    return true
   }
 
   return inputChecked
