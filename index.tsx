@@ -7,6 +7,7 @@ export const VariantJs = (props: {
   children: React.ReactNode
   configuration?: VariantJSConfiguration
 }): JSX.Element => {
+  console.log(props)
   return (
     <Configuration.Provider {...props} value={props.configuration || {}}>
       {props.children}

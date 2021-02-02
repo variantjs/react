@@ -1,9 +1,19 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import { TWrappedCheckbox, classesListKeys } from '../components/TWrappedCheckbox'
+import { TWrappedCheckbox } from '../components/TWrappedCheckbox'
 import { TWrappedCheckbox as TWrappedCheckboxTheme } from '../theme/TWrappedCheckbox'
 import { CSSClassesList, pick } from '@variantjs/core'
+
+const classesListKeys = [
+  'wrapper',
+  'wrapperChecked',
+  'inputWrapper',
+  'inputWrapperChecked',
+  'input',
+  'label',
+  'labelChecked',
+]
 
 const emptyClasses: CSSClassesList = classesListKeys.reduce((obj, key) => {
   obj[key] = ''

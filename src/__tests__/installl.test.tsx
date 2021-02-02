@@ -1,7 +1,6 @@
-import { VariantJs } from '../install'
+import { VariantJs, TInput } from '../..'
 import { VariantJSConfiguration } from '../context/Configuration'
-import { TInput } from '../components/TInput'
-import TInputTheme from '../theme/TInput'
+import { TInput as TInputTheme } from '../theme/TInput'
 import { mount } from 'enzyme'
 
 describe('VariantJs installer', () => {

@@ -1,9 +1,19 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { Configuration, VariantJSConfiguration } from '../context/Configuration'
-import { TWrappedRadio, classesListKeys } from '../components/TWrappedRadio'
+import { TWrappedRadio } from '../components/TWrappedRadio'
 import { TWrappedRadio as TWrappedRadioTheme } from '../theme/TWrappedRadio'
 import { CSSClassesList, pick } from '@variantjs/core'
+
+const classesListKeys = [
+  'wrapper',
+  'wrapperChecked',
+  'inputWrapper',
+  'inputWrapperChecked',
+  'input',
+  'label',
+  'labelChecked',
+]
 
 const emptyClasses: CSSClassesList = classesListKeys.reduce((obj, key) => {
   obj[key] = ''

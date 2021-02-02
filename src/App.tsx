@@ -1,9 +1,5 @@
 import { useState } from 'react'
-import { TInput } from './components/TInput'
-import { TWrappedCheckbox } from './components/TWrappedCheckbox'
-import { TSelect, TSelectValue } from './components/TSelect'
-import { TRadio } from './components/TRadio'
-import { TWrappedRadio } from './components/TWrappedRadio'
+import { TInput, TSelect, TSelectValue, TWrappedRadio, TWrappedCheckbox } from '../'
 
 function App(): JSX.Element {
   const [variant, setVariant] = useState<TSelectValue>(undefined)
