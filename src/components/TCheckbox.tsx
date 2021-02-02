@@ -1,3 +1,4 @@
+import { WithVariantProps } from '@variantjs/core'
 import { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'react'
 import { withVariants } from '../hoc/WithVariants'
 import { TCheckbox as defaultConfiguration } from '../theme/TCheckbox'
@@ -35,7 +36,9 @@ export const checkboxShouldBeChecked = (
   return inputChecked
 }
 
-export const TCheckbox = withVariants<TCheckboxProps>(
+export const TCheckbox: React.ComponentType<
+  WithVariantProps<TCheckboxProps>
+> = withVariants<TCheckboxProps>(
   (props: TCheckboxProps) => {
     const { checked, uncheckedValue, ...inputProps } = handleStateAndChangeHandler<
       TCheckboxProps,

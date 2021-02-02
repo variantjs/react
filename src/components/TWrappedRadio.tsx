@@ -3,6 +3,7 @@ import { TWrappedRadio as defaultConfiguration } from '../theme/TWrappedRadio'
 import { TRadio, TRadioProps, radioShouldBeChecked } from './TRadio'
 import { withVariantsWithinClassesList } from '../hoc/WithVariantsWithinClassesList'
 import { WithClassesList } from '../types'
+import { WithVariantPropsAndClassesList } from '@variantjs/core'
 
 export type TWrappedRadioProps = TRadioProps &
   WithClassesList & {
@@ -22,7 +23,9 @@ const classesListKeys = [
   'labelChecked',
 ]
 
-export const TWrappedRadio = withVariantsWithinClassesList<TWrappedRadioProps>(
+export const TWrappedRadio: React.ComponentType<
+  WithVariantPropsAndClassesList<TWrappedRadioProps>
+> = withVariantsWithinClassesList<TWrappedRadioProps>(
   (props: TWrappedRadioProps) => {
     const {
       classesList,

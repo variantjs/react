@@ -1,3 +1,4 @@
+import { WithVariantProps } from '@variantjs/core'
 import { ChangeEvent, DetailedHTMLProps, TextareaHTMLAttributes } from 'react'
 import { withVariants } from '../hoc/WithVariants'
 import { TTextarea as defaultConfiguration } from '../theme/TTextarea'
@@ -12,7 +13,9 @@ export type TTextareaProps = DetailedHTMLProps<
 > &
   WithStateAndChangeHandler
 
-export const TTextarea = withVariants<TTextareaProps>(
+export const TTextarea: React.ComponentType<
+  WithVariantProps<TTextareaProps>
+> = withVariants<TTextareaProps>(
   (props: TTextareaProps) => {
     const inputProps = handleStateAndChangeHandler<
       TTextareaProps,

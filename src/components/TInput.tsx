@@ -1,3 +1,4 @@
+import { WithVariantProps } from '@variantjs/core'
 import { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'react'
 import { withVariants } from '../hoc/WithVariants'
 import { TInput as defaultConfiguration } from '../theme/TInput'
@@ -12,7 +13,7 @@ export type TInputProps = DetailedHTMLProps<
 > &
   WithStateAndChangeHandler
 
-export const TInput = withVariants<TInputProps>(
+export const TInput: React.ComponentType<WithVariantProps<TInputProps>> = withVariants<TInputProps>(
   (props: TInputProps) => {
     const inputProps = handleStateAndChangeHandler<TInputProps, ChangeEvent<HTMLInputElement>>(
       props,

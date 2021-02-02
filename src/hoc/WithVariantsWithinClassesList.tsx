@@ -8,15 +8,15 @@ import { Configuration } from '../context/Configuration'
 
 type ComponentName = 'TWrappedCheckbox' | 'TWrappedRadio'
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const withVariantsWithinClassesList = <P extends ObjectWithClassesList>(
   WrappedComponent: React.ComponentType<P>,
   componentName: ComponentName,
   classesListKeys: Array<string>,
   defaultConfiguration?: WithVariantPropsAndClassesList<P>
-) => {
-  // eslint-disable-next-line react/display-name
-  return class extends React.Component<WithVariantPropsAndClassesList<P>> {
+): React.ComponentType<WithVariantPropsAndClassesList<P>> => {
+  return class WithVariantsWithinClassesList extends React.Component<
+    WithVariantPropsAndClassesList<P>
+  > {
     static contextType = Configuration
 
     context!: React.ContextType<typeof Configuration>

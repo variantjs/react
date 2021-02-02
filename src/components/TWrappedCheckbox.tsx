@@ -3,6 +3,7 @@ import { TWrappedCheckbox as defaultConfiguration } from '../theme/TWrappedCheck
 import { checkboxShouldBeChecked, TCheckbox, TCheckboxProps } from './TCheckbox'
 import { withVariantsWithinClassesList } from '../hoc/WithVariantsWithinClassesList'
 import { WithClassesList } from '../types'
+import { WithVariantPropsAndClassesList } from '@variantjs/core'
 
 export type TWrappedCheckboxProps = TCheckboxProps &
   WithClassesList & {
@@ -22,7 +23,9 @@ const classesListKeys = [
   'labelChecked',
 ]
 
-export const TWrappedCheckbox = withVariantsWithinClassesList<TWrappedCheckboxProps>(
+export const TWrappedCheckbox: React.ComponentType<
+  WithVariantPropsAndClassesList<TWrappedCheckboxProps>
+> = withVariantsWithinClassesList<TWrappedCheckboxProps>(
   (props: TWrappedCheckboxProps) => {
     const {
       classesList,

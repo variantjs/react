@@ -1,3 +1,4 @@
+import { WithVariantProps } from '@variantjs/core'
 import { DetailedHTMLProps, ButtonHTMLAttributes } from 'react'
 import { withVariants } from '../hoc/WithVariants'
 import { TButton as defaultConfiguration } from '../theme/TButton'
@@ -7,7 +8,9 @@ export type TButtonProps = DetailedHTMLProps<
   HTMLButtonElement
 >
 
-export const TButton = withVariants<TButtonProps>(
+export const TButton: React.ComponentType<
+  WithVariantProps<TButtonProps>
+> = withVariants<TButtonProps>(
   (props: TButtonProps) => <button {...props} />,
   'TButton',
   defaultConfiguration

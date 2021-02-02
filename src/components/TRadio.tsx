@@ -1,3 +1,4 @@
+import { WithVariantProps } from '@variantjs/core'
 import { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'react'
 import { withVariants } from '../hoc/WithVariants'
 import { TRadio as defaultConfiguration } from '../theme/TRadio'
@@ -28,7 +29,7 @@ export const radioShouldBeChecked = (
   return inputChecked
 }
 
-export const TRadio = withVariants<TRadioProps>(
+export const TRadio: React.ComponentType<WithVariantProps<TRadioProps>> = withVariants<TRadioProps>(
   (props: TRadioProps) => {
     const { checked, ...inputProps } = handleStateAndChangeHandler<
       TRadioProps,
