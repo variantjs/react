@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  CSSRawClassesList,
   ObjectWithClassesList,
   parseVariantWithClassesList,
   WithVariantPropsAndClassesList,
@@ -8,23 +9,29 @@ import { Configuration } from '../context/Configuration'
 
 type ComponentName = 'TWrappedCheckbox' | 'TWrappedRadio'
 
-export const withVariantsWithinClassesList = <P extends ObjectWithClassesList>(
+export const withVariantsWithinClassesList = <
+  P extends ObjectWithClassesList,
+  C extends CSSRawClassesList
+>(
   WrappedComponent: React.ComponentType<P>,
   componentName: ComponentName,
   classesListKeys: Array<string>,
-  defaultConfiguration?: WithVariantPropsAndClassesList<P>
-): React.ComponentType<WithVariantPropsAndClassesList<P>> => {
+  defaultConfiguration?: WithVariantPropsAndClassesList<P, C>
+): React.ComponentType<WithVariantPropsAndClassesList<P, C>> => {
   return class WithVariantsWithinClassesList extends React.Component<
-    WithVariantPropsAndClassesList<P>
+    WithVariantPropsAndClassesList<P, C>
   > {
     static contextType = Configuration
 
     context!: React.ContextType<typeof Configuration>
 
     render() {
-      const globalConfiguration = this.context[componentName] as WithVariantPropsAndClassesList<P>
+      const globalConfiguration = this.context[componentName] as WithVariantPropsAndClassesList<
+        P,
+        C
+      >
 
-      const props = parseVariantWithClassesList(
+      const props = parseVariantWithClassesList<P, C>(
         this.props,
         classesListKeys,
         globalConfiguration,
