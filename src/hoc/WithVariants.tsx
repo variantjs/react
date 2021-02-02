@@ -4,12 +4,14 @@ import { Configuration } from '../context/Configuration'
 
 type ComponentName = 'TInput' | 'TButton' | 'TSelect' | 'TTextarea' | 'TCheckbox' | 'TRadio'
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const withVariants = <P extends ObjectWithClassName>(
   WrappedComponent: React.ComponentType<P>,
   componentName: ComponentName,
   defaultConfiguration?: WithVariantProps<P>
-): typeof React.Component => {
-  return class WithVariant extends React.Component<WithVariantProps<P>> {
+) => {
+  // eslint-disable-next-line react/display-name
+  return class extends React.Component<WithVariantProps<P>> {
     static contextType = Configuration
 
     context!: React.ContextType<typeof Configuration>
