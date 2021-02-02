@@ -10,15 +10,15 @@ const removeDataTestId = () => ({
 })
 
 const input = [
-  'src/index.tsx',
-  'src/t-button.ts',
-  'src/t-checkbox.ts',
-  'src/t-input.ts',
-  'src/t-radio.ts',
-  'src/t-select.ts',
-  'src/t-textarea.ts',
-  'src/t-wrapped-checkbox.ts',
-  'src/t-wrapped-radio.ts',
+  'index.tsx',
+  't-button.ts',
+  't-checkbox.ts',
+  't-input.ts',
+  't-radio.ts',
+  't-select.ts',
+  't-textarea.ts',
+  't-wrapped-checkbox.ts',
+  't-wrapped-radio.ts',
 ]
 
 const config = {

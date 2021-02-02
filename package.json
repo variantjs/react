@@ -1,11 +1,11 @@
 {
   "name": "@variantjs/react",
   "version": "0.0.1",
-  "main": "dist/src/index.js",
+  "main": "dist/index.js",
   "files": [
     "dist"
   ],
-  "typings": "dist/src/index.d.ts",
+  "typings": "dist/index.d.ts",
   "peerDependencies": {
     "@variantjs/core": "^0.0.5",
     "react": "^17.0.1",
